@@ -1,0 +1,100 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
+@import "./mixins.scss";
+
+// Font Family
+$PlusJakartaSans: "Plus Jakarta Sans", sans-serif;
+
+// COLORS
+
+// Light mode
+$primary: #635fc7;
+$primary-hover: #a8a4ff;
+$secondary: #efeff9;
+$secondary-hover: #d8d7f1;
+$text-color: #000112;
+$medium-grey: #828fa3;
+$error: #ea5555;
+$error-hover: #ff9898;
+$background: #f4f7fd;
+$surface: #ffffff;
+$white: #ffffff;
+
+// Dark mode
+.dark {
+  $primary: #635fc7;
+  $primary-hover: #a8a4ff;
+  $secondary: #ffffff;
+  $secondary-hover: #ffffff;
+  $text-color: #ffffff;
+  $medium-grey: #828fa3;
+  $error: #ea5555;
+  $error-hover: #ff9898;
+  $background: #20212c;
+  $surface: #2b2c37;
+  $white: #ffffff;
+}
+
+// Shadow
+$task-shadow: 0px 4px 6px 0px rgba(54, 78, 126, 0.1);
+
+// Transition
+$transition-main: all 300ms;
+
+// Font styles
+.heading-XL {
+  @include text-style($text-color, 2.4rem, 3rem, 700);
+}
+
+.heading-L {
+  @include text-style($text-color, 1.8rem, 2.4rem, 700);
+}
+
+.heading-M {
+  @include text-style($text-color, 1.5rem, 2rem, 700);
+}
+
+.heading-S {
+  @include text-style($medium-grey, 1.2rem, 1.5rem, 700);
+  letter-spacing: 0.24rem;
+}
+
+.body-L {
+  @include text-style($text-color, 1.3rem, 2.3rem, 500);
+}
+
+.body-M {
+  @include text-style($text-color, 1.2rem, 1.5rem, 600);
+}
+
+// BUTTONS
+.primary-L {
+  @include buttton-style($primary, 1.5rem, 700, $white, 2.4rem);
+  padding: 1.4rem 6.2rem;
+  &:hover {
+    background-color: $primary-hover;
+  }
+}
+
+.primary-S {
+  @include buttton-style($primary, 1.3rem, 700, $white, 2rem);
+  padding: 0.8rem 6.2rem;
+  &:hover {
+    background-color: $primary-hover;
+  }
+}
+
+.secondary {
+  @include buttton-style($secondary, 1.3rem, 700, $primary, 2rem);
+  padding: 0.8rem 6.2rem;
+  &:hover {
+    background-color: $secondary-hover;
+  }
+}
+
+.error {
+  @include buttton-style($error, 1.3rem, 700, $white, 2rem);
+  padding: 0.8rem 6.2rem;
+  &:hover {
+    background-color: $error-hover;
+  }
+}

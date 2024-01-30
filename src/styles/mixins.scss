@@ -1,0 +1,50 @@
+@mixin text-style($color, $size, $height, $weight) {
+  color: $color;
+  font-size: $size;
+  line-height: $height;
+  font-weight: $weight;
+}
+
+@mixin flex-style($direction, $alignment, $justify, $gap) {
+  display: flex;
+  flex-direction: $direction;
+  align-items: $alignment;
+  justify-content: $justify;
+  gap: $gap;
+}
+
+@mixin link-style($color, $font-size) {
+  color: $color;
+  font-size: $font-size;
+  text-decoration: none;
+}
+
+@mixin buttton-style($bg-color, $font-size, $weight, $text-color, $radius) {
+  background-color: $bg-color;
+  font-size: $font-size;
+  font-weight: $weight;
+  color: $text-color;
+  border-radius: $radius;
+  font-family: $PlusJakartaSans;
+  outline: none;
+  border: none;
+  &:hover {
+    cursor: pointer;
+    transition: $transition-main;
+  }
+}
+
+@mixin input-style() {
+  border: 1px solid rgba(130, 143, 163, 0.25);
+  padding: 0.8rem 1.6rem;
+  border-radius: 0.4rem;
+  font-family: $PlusJakartaSans;
+}
+
+@mixin flex-style($direction, $gap, $alignment, $justify) {
+  display: flex;
+  flex-direction: $direction;
+  gap: $gap;
+  align-items: $alignment;
+  justify-content: $justify;
+}

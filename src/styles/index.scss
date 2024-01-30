@@ -1,0 +1,49 @@
+@import "./variables.scss";
+@import "./mixins.scss";
+
+*,
+::after,
+::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: $PlusJakartaSans;
+  //   background-color: $bg;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+.form {
+  @include flex-style(column, 0.8rem, flex-start, center);
+
+  & .label {
+    color: $medium-grey;
+  }
+  & input {
+    @include input-style();
+
+    &:focus {
+      outline: none;
+      border-color: $primary;
+      color: $text-color;
+    }
+  }
+  & .input-error {
+    border-color: $error;
+  }
+
+  & .message {
+    color: $error;
+    margin-top: -0.4rem;
+  }
+}
+
+::placeholder {
+  @include text-style($text-color, 1.3rem, 2.3rem, 500);
+  opacity: 0.25;
+}
