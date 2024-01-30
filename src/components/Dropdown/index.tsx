@@ -1,25 +1,21 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import icon from "../../assets/dropdown.png";
 
 const Dropdown = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
-    
-     const selectOption = (option) => {
+
+  const selectOption = (option) => {
     setIsOpen(false);
   };
 
   return (
-  <>
-      
+    <>
       <div
-        className={
-          isOpen ? "dropdown clicked"  : "dropdown"
-        }
+        className={isOpen ? "dropdown clicked" : "dropdown"}
         onClick={toggleDropdown}
       >
         <p>Doing</p>
@@ -34,6 +30,7 @@ const Dropdown = () => {
         </ul>
       )}
     </>
+  );
 };
 
 export default Dropdown;
