@@ -2,6 +2,7 @@ import { MouseEventHandler } from "react";
 
 export interface ButtonProps {
   className: string;
+  text: string;
 }
 
 export interface InputProps {
@@ -12,10 +13,4 @@ export interface InputProps {
   errorMessage?: string;
 }
 
-export interface DropdownProps {
-  className?: string;
-  placeholder: string;
-  type: string;
-  label: string;
-  errorMessage?: string;
-}
+export interface DropdownProps {}

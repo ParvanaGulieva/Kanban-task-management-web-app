@@ -47,3 +47,271 @@ html {
   @include text-style($text-color, 1.3rem, 2.3rem, 500);
   opacity: 0.25;
 }
+
+.dropdown {
+  width: 35rem;
+  cursor: pointer;
+  @include dropdown-style();
+  @include flex-style(row, auto, center, space-between);
+  @include text-style($text-color, 1.3rem, 2.3rem, 500);
+  &.clicked {
+    border-color: $primary;
+  }
+}
+
+.dropdown-options {
+  width: 35rem;
+  background-color: $secondary;
+  border-radius: 0.4rem;
+  margin-top: 0.8rem;
+  padding: 0.8rem;
+  & li {
+    @include text-style($medium-grey, 1.3rem, 2.3rem, 500);
+    padding: 0.8rem 1.6rem;
+    border-radius: 0.4rem;
+    &:hover {
+      color: $text-color;
+      transition: $transition-main;
+      background-color: $secondary-hover;
+      cursor: pointer;
+    }
+  }
+}
+
+.subtask-container {
+  @include flex-style(row, 0.8rem, center, flex-start);
+  padding: 1.2rem;
+  padding-left: 4rem;
+  width: 35rem;
+  border-radius: 0.4rem;
+  background-color: $secondary;
+  &:hover {
+    background-color: $secondary-hover;
+    transition: $transition-main;
+    cursor: pointer;
+  }
+}
+
+.subtask-container {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  & input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+}
+
+.checkmark {
+  position: absolute;
+  top: 1.2rem;
+  left: 1.2rem;
+  height: 1.6rem;
+  width: 1.6rem;
+  border-radius: 0.2rem;
+  border: 1px solid rgba(50, 59, 72, 0.25);
+  background-color: $surface;
+}
+
+.subtask-container input:checked ~ .checkmark {
+  background-color: $primary;
+  border-color: transparent;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.subtask-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.subtask-container .checkmark:after {
+  left: 0.5rem;
+  top: 0.1rem;
+  width: 0.5rem;
+  height: 1rem;
+  border: solid $surface;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.header-container {
+  width: 100%;
+  height: min-content;
+  border: 1px solid $stroke;
+  padding: 3.2rem 2.4rem;
+  @include flex-style(row, 0, center, space-between);
+
+  & .btn-container {
+    @include flex-style(row, 2.4rem, center, center);
+  }
+}
+
+.sidebar-container {
+  border: 1px solid $stroke;
+  width: 100%;
+  height: 100vh;
+
+  & .logo {
+    margin: 4rem 3.2rem;
+  }
+  & .hiddenPart {
+    // height: 100%;
+    @include flex-style(column, 0, flex-start, space-between);
+    & .btn-container {
+      @include flex-style(column, 1.6rem, flex-start, center);
+    }
+
+    & .tabs {
+      margin: 3.2rem;
+      @include flex-style(column, 2.4rem, flex-start, center);
+      & .tab {
+        cursor: pointer;
+        @include flex-style(row, 1.6rem, center, flex-start);
+        .heading-M {
+          color: $medium-grey;
+        }
+      }
+      & .createNew {
+        p {
+          color: $primary !important;
+        }
+
+        svg path {
+          fill: $primary;
+        }
+      }
+    }
+
+    & .theme-container {
+      padding: 1.6rem 6.4rem;
+      margin-left: 2.4rem;
+      margin-right: 2.4rem;
+      border-radius: 0.6rem;
+      background-color: $background;
+      @include flex-style(row, 2.4rem, center, space-between);
+    }
+
+    & .hide-button {
+      @include flex-style(row, 1.6rem, center, flex-start);
+      margin: 2.4rem;
+      cursor: pointer;
+      p {
+        color: $medium-grey;
+      }
+
+      &:hover {
+        transition: $transition-main;
+        p {
+          color: $primary;
+        }
+        svg path {
+          fill: $primary;
+        }
+      }
+    }
+  }
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 4rem;
+  height: 2.2rem;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $secondary-hover;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  &:hover {
+    background-color: $primary-hover;
+  }
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 1.4rem;
+  width: 1.4rem;
+  left: 0.55rem;
+  bottom: 0.4rem;
+  right: 0.6rem;
+  background-color: $white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: $primary;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px $secondary-hover;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(15px);
+  -ms-transform: translateX(15px);
+  transform: translateX(15px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.board-container {
+  background-color: $background;
+  height: 100%;
+  width: 100%;
+  @include flex-style(column, 2.4rem, center, center);
+
+  & .heading-L {
+    color: $medium-grey;
+  }
+}
+
+.main-layout {
+  & .sidebar-container {
+    grid-column: 1/2;
+    grid-row: 1/3;
+  }
+  & .header-container {
+    grid-column: 2/3;
+    grid-row: 1/2;
+  }
+  & .board-container {
+    grid-column: 2/3;
+    grid-row: 2/3;
+  }
+}

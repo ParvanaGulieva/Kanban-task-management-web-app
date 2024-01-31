@@ -1,10 +1,14 @@
 import React from "react";
-import Dropdown from "./components/Dropdown";
+import Board from "./components/Board";
+import Sidebar from "./components/Sidebar";
+import Header from "./components/Header";
 
 function App() {
   return (
-    <div className="App">
-      <Dropdown />
+    <div className="main-layout">
+      <Sidebar />
+      <Header />
+      <Board />
     </div>
   );
 }

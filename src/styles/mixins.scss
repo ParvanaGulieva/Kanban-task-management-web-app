@@ -48,3 +48,14 @@
   align-items: $alignment;
   justify-content: $justify;
 }
+
+@mixin dropdown-style() {
+  border: 1px solid rgba(130, 143, 163, 0.25);
+  padding: 0.8rem 1.6rem;
+  border-radius: 0.4rem;
+}
+
+@mixin grid-style($grid, $gap) {
+  display: grid;
+  gap: $gap;
+}

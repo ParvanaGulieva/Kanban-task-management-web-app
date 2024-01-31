@@ -8,7 +8,7 @@ const Dropdown = () => {
     setIsOpen(!isOpen);
   };
 
-  const selectOption = (option) => {
+  const selectOption = (option: string) => {
     setIsOpen(false);
   };
 
