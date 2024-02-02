@@ -9,8 +9,17 @@ export interface InputProps {
   className?: string;
   placeholder: string;
   type: string;
-  label: string;
+  label?: string;
   errorMessage?: string;
+}
+
+export interface DropdownProps {
+  label?: string;
+  placeholder: string;
+}
+
+export interface SidebarProps {
+  toggleTheme: void;
 }
 
 export interface DropdownProps {}

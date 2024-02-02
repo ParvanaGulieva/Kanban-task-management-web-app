@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import icon from "../../assets/dropdown.png";
+import { DropdownProps } from "types";
 
-const Dropdown = () => {
+const Dropdown = ({ label, placeholder }: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -13,12 +14,13 @@ const Dropdown = () => {
   };
 
   return (
-    <>
+    <div className="dropdown-container">
+      <label className="body-M">{label}</label>
       <div
         className={isOpen ? "dropdown clicked" : "dropdown"}
         onClick={toggleDropdown}
       >
-        <p>Doing</p>
+        <p>{placeholder}</p>
         <img src={icon} alt="dropdownIcon" />
       </div>
       {isOpen && (
@@ -29,7 +31,7 @@ const Dropdown = () => {
           <li onClick={() => selectOption("Net 30 Days")}>Net 30 Days</li>
         </ul>
       )}
-    </>
+    </div>
   );
 };
 

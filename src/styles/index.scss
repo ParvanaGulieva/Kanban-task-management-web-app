@@ -1,5 +1,134 @@
 @import "./variables.scss";
 @import "./mixins.scss";
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
 
 *,
 ::after,
@@ -11,7 +140,7 @@
 
 body {
   font-family: $PlusJakartaSans;
-  //   background-color: $bg;
+  background-color: $background;
 }
 
 html {
@@ -19,13 +148,20 @@ html {
 }
 
 .form {
-  @include flex-style(column, 0.8rem, flex-start, center);
+  @include flex-style(column, 0, flex-start, center);
+  width: 100%;
+  height: fit-content;
 
   & .label {
     color: $medium-grey;
+    margin-bottom: 0.8rem;
+  }
+  & .text-area {
+    height: 11.2rem;
   }
   & input {
     @include input-style();
+    width: 100%;
 
     &:focus {
       outline: none;
@@ -48,8 +184,17 @@ html {
   opacity: 0.25;
 }
 
+.dropdown-container {
+  @include flex-style(column, 0.8rem, flex-start, center);
+  width: 100%;
+
+  & label {
+    color: $medium-grey;
+  }
+}
+
 .dropdown {
-  width: 35rem;
+  width: 100%;
   cursor: pointer;
   @include dropdown-style();
   @include flex-style(row, auto, center, space-between);
@@ -60,7 +205,7 @@ html {
 }
 
 .dropdown-options {
-  width: 35rem;
+  width: 100%;
   background-color: $secondary;
   border-radius: 0.4rem;
   margin-top: 0.8rem;
@@ -82,7 +227,7 @@ html {
   @include flex-style(row, 0.8rem, center, flex-start);
   padding: 1.2rem;
   padding-left: 4rem;
-  width: 35rem;
+  width: 100%;
   border-radius: 0.4rem;
   background-color: $secondary;
   &:hover {
@@ -152,77 +297,123 @@ html {
   width: 100%;
   height: min-content;
   border: 1px solid $stroke;
-  padding: 3.2rem 2.4rem;
-  @include flex-style(row, 0, center, space-between);
+  background-color: $surface;
+  @include flex-style(row, 0, center, flex-start);
 
   & .btn-container {
     @include flex-style(row, 2.4rem, center, center);
+
+    & svg {
+      cursor: pointer;
+    }
+  }
+
+  & .more-container {
+    position: absolute;
+    padding: 1.6rem;
+    background: $surface;
+    border-radius: 0.8rem;
+    width: 19.2rem;
+    top: 9rem;
+    right: 2.4rem;
+
+    & p {
+      cursor: pointer;
+    }
+    & .delete {
+      color: $error;
+      margin-top: 1.6rem;
+    }
+  }
+
+  & .logo-container {
+    border-right: 1px solid $stroke;
+    padding: 4.2rem 8rem 4.2rem 3.2rem;
+    width: 20%;
+  }
+
+  & .main {
+    width: 80%;
+
+    @include flex-style(row, 0, center, space-between);
+    padding: 3.2rem 2.4rem;
   }
 }
 
 .sidebar-container {
-  border: 1px solid $stroke;
-  width: 100%;
-  height: 100vh;
+  z-index: 100;
+  border-right: 1px solid $stroke;
+  width: 20%;
+  height: 100%;
+  background-color: $surface;
 
-  & .logo {
-    margin: 4rem 3.2rem;
+  @include flex-style(column, 0, flex-start, space-between);
+  & .btn-container {
+    @include flex-style(column, 1.6rem, flex-start, center);
   }
-  & .hiddenPart {
-    // height: 100%;
-    @include flex-style(column, 0, flex-start, space-between);
-    & .btn-container {
-      @include flex-style(column, 1.6rem, flex-start, center);
-    }
 
-    & .tabs {
-      margin: 3.2rem;
-      @include flex-style(column, 2.4rem, flex-start, center);
-      & .tab {
-        cursor: pointer;
-        @include flex-style(row, 1.6rem, center, flex-start);
-        .heading-M {
-          color: $medium-grey;
-        }
-      }
-      & .createNew {
-        p {
-          color: $primary !important;
-        }
-
-        svg path {
-          fill: $primary;
-        }
-      }
-    }
-
-    & .theme-container {
-      padding: 1.6rem 6.4rem;
-      margin-left: 2.4rem;
-      margin-right: 2.4rem;
-      border-radius: 0.6rem;
-      background-color: $background;
-      @include flex-style(row, 2.4rem, center, space-between);
-    }
-
-    & .hide-button {
-      @include flex-style(row, 1.6rem, center, flex-start);
-      margin: 2.4rem;
+  & .tabs {
+    margin: 3.2rem;
+    @include flex-style(column, 2.4rem, flex-start, center);
+    & .tab {
       cursor: pointer;
-      p {
+      @include flex-style(row, 1.6rem, center, flex-start);
+      .heading-M {
         color: $medium-grey;
       }
+    }
+    & .createNew {
+      p {
+        color: $primary !important;
+      }
 
-      &:hover {
-        transition: $transition-main;
-        p {
-          color: $primary;
-        }
-        svg path {
-          fill: $primary;
-        }
+      svg path {
+        fill: $primary;
       }
     }
+  }
+
+  & .theme-container {
+    padding: 1.6rem 6.4rem;
+    margin-left: 2.4rem;
+    margin-right: 2.4rem;
+    border-radius: 0.6rem;
+    background-color: $background;
+    @include flex-style(row, 2.4rem, center, space-between);
+  }
+
+  & .hide-button {
+    @include flex-style(row, 1.6rem, center, flex-start);
+    margin: 2.4rem;
+    cursor: pointer;
+    p {
+      color: $medium-grey;
+    }
+
+    &:hover {
+      transition: $transition-main;
+      p {
+        color: $primary;
+      }
+      svg path {
+        fill: $primary;
+      }
+    }
+  }
+}
+
+.open-sidebar {
+  position: absolute;
+  left: 0;
+  bottom: 1rem;
+  background-color: $primary;
+  padding: 1.8rem;
+  border-top-right-radius: 10rem;
+  border-bottom-right-radius: 10rem;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.7;
+    transition: $transition-main;
   }
 }
 
@@ -291,9 +482,9 @@ input:checked + .slider:before {
 }
 
 .board-container {
-  background-color: $background;
   height: 100%;
   width: 100%;
+
   @include flex-style(column, 2.4rem, center, center);
 
   & .heading-L {
@@ -301,17 +492,125 @@ input:checked + .slider:before {
   }
 }
 
-.main-layout {
-  & .sidebar-container {
-    grid-column: 1/2;
-    grid-row: 1/3;
+// .main-layout {
+//   & .sidebar-container {
+//     grid-column: 1/2;
+//     grid-row: 1/3;
+//   }
+//   & .header-container {
+//     grid-column: 2/3;
+//     grid-row: 1/2;
+//   }
+//   & .board-container {
+//     grid-column: 2/3;
+//     grid-row: 2/3;
+//   }
+// }
+
+.task-card-container {
+  box-shadow: $task-shadow;
+  background-color: $surface;
+  border-radius: 0.8rem;
+  @include flex-style(column, 0.8rem, flex-start, center);
+  padding: 2.4rem 1.6rem;
+
+  & .body-M {
+    color: $medium-grey;
   }
-  & .header-container {
-    grid-column: 2/3;
-    grid-row: 1/2;
+}
+
+.modal {
+  @include flex-style(column, 2.4rem, flex-start, center);
+  border-radius: 0.6rem;
+  background-color: $surface;
+  width: 48rem;
+  box-shadow: $task-shadow;
+  padding: 3.2rem;
+  & .body-L {
+    color: $medium-grey;
   }
-  & .board-container {
-    grid-column: 2/3;
-    grid-row: 2/3;
+  & .content {
+    width: 100%;
+    & .body-M {
+      color: $medium-grey;
+    }
   }
+
+  & .subtasks {
+    @include flex-style(column, 0.8rem, flex-start, center);
+    margin-top: 1.6rem;
+  }
+
+  & .add-subtasks,
+  & .columns {
+    width: 100%;
+    @include flex-style(column, 1.2rem, flex-start, center);
+
+    & .body-M {
+      color: $medium-grey;
+    }
+
+    & .subtask,
+    & .column {
+      width: 100%;
+      @include flex-style(row, 1.6rem, center, flex-start);
+
+      & svg {
+        cursor: pointer;
+
+        &:hover rect {
+          fill: $error;
+        }
+      }
+    }
+  }
+
+  & .btn-container {
+    width: 100%;
+    @include flex-style(row, 1.6rem, center, center);
+  }
+
+  & .title-container {
+    position: relative;
+    @include flex-style(row, 2.4rem, center, space-between);
+
+    & svg {
+      cursor: pointer;
+    }
+
+    & .more-container {
+      position: absolute;
+      padding: 1.6rem;
+      background: $background;
+      border-radius: 0.8rem;
+      width: 19.2rem;
+      top: 6rem;
+      right: -20%;
+
+      & p {
+        cursor: pointer;
+      }
+      & .delete {
+        color: $error;
+        margin-top: 1.6rem;
+      }
+    }
+  }
+}
+
+ul li {
+  list-style: none;
+}
+
+textarea {
+  resize: none;
+}
+
+.delete-title {
+  color: $error !important;
+}
+
+.main-section {
+  @include flex-style(row, 0, center, flex-start);
+  height: calc(100vh - 111px);
 }

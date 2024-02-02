@@ -7,6 +7,7 @@ $PlusJakartaSans: "Plus Jakarta Sans", sans-serif;
 // COLORS
 
 // Light mode
+
 $primary: #635fc7;
 $primary-hover: #a8a4ff;
 $secondary: #efeff9;
@@ -79,7 +80,8 @@ $transition-main: all 300ms;
 
 .primary-S {
   @include buttton-style($primary, 1.3rem, 700, $white, 2rem);
-  padding: 0.8rem 4rem;
+  padding: 1.2rem 4rem;
+  width: 100%;
   &:hover {
     background-color: $primary-hover;
   }
@@ -87,7 +89,8 @@ $transition-main: all 300ms;
 
 .secondary {
   @include buttton-style($secondary, 1.3rem, 700, $primary, 2rem);
-  padding: 0.8rem 4rem;
+  padding: 1.2rem 4rem;
+  width: 100%;
   &:hover {
     background-color: $secondary-hover;
   }
@@ -95,14 +98,10 @@ $transition-main: all 300ms;
 
 .error {
   @include buttton-style($error, 1.3rem, 700, $white, 2rem);
-  padding: 0.8rem 4rem;
+  padding: 1.2rem 4rem;
+  width: 100%;
+
   &:hover {
     background-color: $error-hover;
   }
-}
-
-.main-layout {
-  @include grid-style(grid, 0);
-  grid-template-columns: 20% 80%;
-  grid-template-rows: min-content 1fr;
 }

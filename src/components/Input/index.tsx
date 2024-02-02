@@ -10,9 +10,10 @@ const Input = ({
 }: InputProps) => {
   return (
     <div className="form">
-      <p className="label body-M">{label}</p>
+      {label && <p className="label body-M">{label}</p>}
+
       <input type={type} placeholder={placeholder} className={className} />
-      <p className="message body-L">{errorMessage}</p>
+      {errorMessage && <p className="message body-L">{errorMessage}</p>}
     </div>
   );
 };
