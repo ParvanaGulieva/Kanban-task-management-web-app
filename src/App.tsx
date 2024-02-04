@@ -9,6 +9,9 @@ import Delete from "./Modals/Delete";
 
 function App() {
   const [theme, setTheme] = useState("");
+  const [addNewTask, setAddNewTask] = useState(false);
+  const [addNewBoard, setAddNewBoard] = useState(false);
+  const [showDetailedTask, setShowDetailedTask] = useState(false);
 
   const toggleTheme = () => {
     if (theme === "light") {
@@ -20,11 +23,19 @@ function App() {
 
   return (
     <div className={theme}>
-      <Header />
+      <Header setAddNewTask={setAddNewTask} />
       <div className="main-section">
         <Sidebar toggleTheme={toggleTheme} />
-        <Board />
+        <Board
+          setAddNewBoard={setAddNewBoard}
+          setShowDetailedTask={setShowDetailedTask}
+        />
       </div>
+      {addNewTask && <AddNewTask setAddNewTask={setAddNewTask} />}
+      {addNewBoard && <AddNewBoard setAddNewBoard={setAddNewBoard} />}
+      {showDetailedTask && (
+        <DetailedTask setShowDetailedTask={setShowDetailedTask} />
+      )}
     </div>
   );
 }

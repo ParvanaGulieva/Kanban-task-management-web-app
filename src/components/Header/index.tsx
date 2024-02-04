@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import Button from "../Button";
 import logo from "../../assets/logo-light.svg";
+import { AddNewTaskProps } from "types";
 
-const Header = () => {
+const Header = ({ setAddNewTask }: AddNewTaskProps) => {
   const [showMore, setShowMore] = useState(false);
 
   const handleClickMore = () => {
@@ -17,7 +18,11 @@ const Header = () => {
       <div className="main">
         <p className="heading-XL">Platform Launch</p>
         <div className="btn-container">
-          <Button className="primary-L" text="+ Add New Task" />
+          <Button
+            className="primary-L"
+            text="+ Add New Task"
+            onClick={() => setAddNewTask(true)}
+          />
           <svg
             onClick={handleClickMore}
             width="5"

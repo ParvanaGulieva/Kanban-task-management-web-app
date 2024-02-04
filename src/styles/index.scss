@@ -141,6 +141,7 @@ table {
 body {
   font-family: $PlusJakartaSans;
   background-color: $background;
+  position: relative;
 }
 
 html {
@@ -484,11 +485,63 @@ input:checked + .slider:before {
 .board-container {
   height: 100%;
   width: 100%;
+  & .empty {
+    @include flex-style(column, 2.4rem, center, center);
+    height: 100%;
+    width: 100%;
+    & .heading-L {
+      color: $medium-grey;
+    }
+  }
 
-  @include flex-style(column, 2.4rem, center, center);
+  & .new-column {
+    height: 100%;
+    border-radius: 0.6rem;
+    background-color: $secondary;
+    transition: $transition-main;
+    margin-top: 3.8rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    & p {
+      color: $medium-grey;
+      text-align: center;
+    }
+    &:hover {
+      & p {
+        color: $primary;
+      }
+    }
+  }
 
-  & .heading-L {
-    color: $medium-grey;
+  & .title {
+    @include flex-style(row, 1.2rem, center, flex-start);
+    margin-bottom: 1.2rem;
+    & .round {
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 100%;
+      background-color: $primary;
+    }
+  }
+
+  & .filled {
+    @include grid-style(grid, 2.4rem);
+    grid-template-columns: repeat(4, 1fr);
+    margin: 2.4rem;
+    height: 100%;
+  }
+
+  & .column {
+    @include flex-style(column, 1.2rem, flex-start, flex-start);
+    &.to-do .round {
+      background-color: #49c4e5;
+    }
+
+    &.done .round {
+      background-color: #67e2ae;
+    }
   }
 }
 
@@ -501,98 +554,119 @@ input:checked + .slider:before {
 //     grid-column: 2/3;
 //     grid-row: 1/2;
 //   }
-//   & .board-container {
+//   & .empty {
 //     grid-column: 2/3;
 //     grid-row: 2/3;
 //   }
 // }
 
 .task-card-container {
+  width: 100%;
   box-shadow: $task-shadow;
   background-color: $surface;
   border-radius: 0.8rem;
   @include flex-style(column, 0.8rem, flex-start, center);
   padding: 2.4rem 1.6rem;
+  cursor: pointer;
+  transition: $transition-main;
+
+  &:hover {
+    .heading-M {
+      color: $primary;
+    }
+  }
 
   & .body-M {
     color: $medium-grey;
   }
 }
 
-.modal {
-  @include flex-style(column, 2.4rem, flex-start, center);
-  border-radius: 0.6rem;
-  background-color: $surface;
-  width: 48rem;
-  box-shadow: $task-shadow;
-  padding: 3.2rem;
-  & .body-L {
-    color: $medium-grey;
-  }
-  & .content {
-    width: 100%;
-    & .body-M {
+.modal-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  & .modal {
+    @include flex-style(column, 2.4rem, flex-start, center);
+    border-radius: 0.6rem;
+    background-color: $surface;
+    width: 48rem;
+    box-shadow: $task-shadow;
+    padding: 3.2rem;
+    & .body-L {
       color: $medium-grey;
     }
-  }
-
-  & .subtasks {
-    @include flex-style(column, 0.8rem, flex-start, center);
-    margin-top: 1.6rem;
-  }
-
-  & .add-subtasks,
-  & .columns {
-    width: 100%;
-    @include flex-style(column, 1.2rem, flex-start, center);
-
-    & .body-M {
-      color: $medium-grey;
-    }
-
-    & .subtask,
-    & .column {
+    & .content {
       width: 100%;
-      @include flex-style(row, 1.6rem, center, flex-start);
+      & .body-M {
+        color: $medium-grey;
+      }
+    }
 
-      & svg {
-        cursor: pointer;
+    & .subtasks {
+      @include flex-style(column, 0.8rem, flex-start, center);
+      margin-top: 1.6rem;
+    }
 
-        &:hover rect {
-          fill: $error;
+    & .add-subtasks,
+    & .columns {
+      width: 100%;
+      @include flex-style(column, 1.2rem, flex-start, center);
+
+      & .body-M {
+        color: $medium-grey;
+      }
+
+      & .subtask,
+      & .column {
+        width: 100%;
+        @include flex-style(row, 1.6rem, center, flex-start);
+
+        & svg {
+          cursor: pointer;
+
+          &:hover rect {
+            fill: $error;
+          }
         }
       }
     }
-  }
 
-  & .btn-container {
-    width: 100%;
-    @include flex-style(row, 1.6rem, center, center);
-  }
-
-  & .title-container {
-    position: relative;
-    @include flex-style(row, 2.4rem, center, space-between);
-
-    & svg {
-      cursor: pointer;
+    & .btn-container {
+      width: 100%;
+      @include flex-style(row, 1.6rem, center, center);
     }
 
-    & .more-container {
-      position: absolute;
-      padding: 1.6rem;
-      background: $background;
-      border-radius: 0.8rem;
-      width: 19.2rem;
-      top: 6rem;
-      right: -20%;
+    & .title-container {
+      position: relative;
+      @include flex-style(row, 2.4rem, center, space-between);
 
-      & p {
+      & svg {
         cursor: pointer;
       }
-      & .delete {
-        color: $error;
-        margin-top: 1.6rem;
+
+      & .more-container {
+        position: absolute;
+        padding: 1.6rem;
+        background: $background;
+        border-radius: 0.8rem;
+        width: 19.2rem;
+        top: 6rem;
+        right: -20%;
+
+        & p {
+          cursor: pointer;
+        }
+        & .delete {
+          color: $error;
+          margin-top: 1.6rem;
+        }
       }
     }
   }
