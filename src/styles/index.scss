@@ -247,12 +247,25 @@ html {
   -ms-user-select: none;
   user-select: none;
 
+  & p {
+    color: $text-color !important;
+  }
+
   & input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
+  }
+
+  &:checked ~ p {
+    text-decoration: line-through;
+    color: $medium-grey;
+  }
+  & input:checked + .checkmark + p {
+    color: $medium-grey !important;
+    text-decoration: line-through;
   }
 }
 
@@ -342,7 +355,7 @@ html {
 }
 
 .sidebar-container {
-  z-index: 100;
+  z-index: 10;
   border-right: 1px solid $stroke;
   width: 20%;
   height: 100%;

@@ -24,11 +24,10 @@ export interface SidebarProps {
 }
 
 export interface HeaderProps {
-  handleAddNewTask: () => void;
-}
-
-export interface AddNewTaskProps {
-  setAddNewTask: (value: boolean) => void;
+  handleAddNewTask?: () => void;
+  setAddNewTask?: (value: boolean) => void;
+  setShowDelete?: (value: boolean) => void;
+  showDelete?: boolean;
 }
 
 export interface NewBoardProps {

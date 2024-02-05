@@ -12,6 +12,7 @@ function App() {
   const [addNewTask, setAddNewTask] = useState(false);
   const [addNewBoard, setAddNewBoard] = useState(false);
   const [showDetailedTask, setShowDetailedTask] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
 
   const toggleTheme = () => {
     if (theme === "light") {
@@ -23,7 +24,11 @@ function App() {
 
   return (
     <div className={theme}>
-      <Header setAddNewTask={setAddNewTask} />
+      <Header
+        setAddNewTask={setAddNewTask}
+        setShowDelete={setShowDelete}
+        showDelete={showDelete}
+      />
       <div className="main-section">
         <Sidebar toggleTheme={toggleTheme} />
         <Board

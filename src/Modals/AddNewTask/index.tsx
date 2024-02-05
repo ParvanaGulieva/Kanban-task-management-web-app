@@ -2,14 +2,14 @@ import React, { useRef, useEffect } from "react";
 import Input from "../../components/Input";
 import Dropdown from "../../components/Dropdown";
 import Button from "../../components/Button";
-import { AddNewTaskProps } from "types";
+import { HeaderProps } from "types";
 
-const AddNewTask = ({ setAddNewTask }: AddNewTaskProps) => {
+const AddNewTask = ({ setAddNewTask }: HeaderProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = (event: MouseEvent) => {
     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-      setAddNewTask(false);
+      setAddNewTask?.(false);
     }
   };
 

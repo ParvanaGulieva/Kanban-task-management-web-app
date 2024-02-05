@@ -1,10 +1,25 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import Button from "../../components/Button";
+import { HeaderProps } from "types";
 
-const Delete = () => {
+const Delete = ({ showDelete, setShowDelete }: HeaderProps) => {
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+      setShowDelete?.(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [setShowDelete]);
   return (
     <div className="modal-container">
-      <div className="modal delete">
+      <div className="modal delete" ref={modalRef}>
         <p className="heading-L delete-title">Delete this board?</p>
         <p className="body-L">
           Are you sure you want to delete the ‘Platform Launch’ board? This

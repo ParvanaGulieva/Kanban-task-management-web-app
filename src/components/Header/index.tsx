@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import Button from "../Button";
 import logo from "../../assets/logo-light.svg";
-import { AddNewTaskProps } from "types";
+import { HeaderProps } from "types";
+import Delete from "../../Modals/Delete";
 
-const Header = ({ setAddNewTask }: AddNewTaskProps) => {
+const Header = ({ setAddNewTask, setShowDelete, showDelete }: HeaderProps) => {
   const [showMore, setShowMore] = useState(false);
 
   const handleClickMore = () => {
@@ -21,7 +22,7 @@ const Header = ({ setAddNewTask }: AddNewTaskProps) => {
           <Button
             className="primary-L"
             text="+ Add New Task"
-            onClick={() => setAddNewTask(true)}
+            onClick={() => setAddNewTask?.(true)}
           />
           <svg
             onClick={handleClickMore}
@@ -39,8 +40,14 @@ const Header = ({ setAddNewTask }: AddNewTaskProps) => {
         {showMore && (
           <div className="more-container">
             <p className="body-L">Edit board</p>
-            <p className="body-L delete">Delete board</p>
+            <p className="body-L delete" onClick={() => setShowDelete?.(true)}>
+              Delete board
+            </p>
           </div>
+        )}
+
+        {showDelete && (
+          <Delete setShowDelete={setShowDelete} showDelete={showDelete} />
         )}
       </div>
     </div>
