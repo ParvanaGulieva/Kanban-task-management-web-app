@@ -175,8 +175,7 @@ html {
   }
 
   & .message {
-    color: $error;
-    margin-top: -0.4rem;
+    color: $error !important;
   }
 }
 
@@ -361,19 +360,55 @@ html {
   height: 100%;
   background-color: $surface;
 
-  @include flex-style(column, 0, flex-start, space-between);
+  @include flex-style(column, 0, center, space-between);
   & .btn-container {
-    @include flex-style(column, 1.6rem, flex-start, center);
+    @include flex-style(column, 2.4rem, flex-start, center);
+    width: 100%;
+    padding: 2.4rem;
   }
 
   & .tabs {
-    margin: 3.2rem;
-    @include flex-style(column, 2.4rem, flex-start, center);
+    width: 100%;
+    @include flex-style(column, 0, flex-start, center);
+    padding-right: 3.2rem;
     & .tab {
+      padding: 1.4rem 3.2rem;
       cursor: pointer;
+      width: 100%;
+      border-top-right-radius: 10rem;
+      border-bottom-right-radius: 10rem;
       @include flex-style(row, 1.6rem, center, flex-start);
       .heading-M {
         color: $medium-grey;
+      }
+
+      &:hover {
+        background-color: $secondary-hover;
+        & p {
+          color: $primary !important;
+        }
+
+        & svg path {
+          fill: $primary;
+        }
+      }
+    }
+
+    & .heading-S {
+      margin: 3.2rem;
+      margin-bottom: 2rem;
+    }
+
+    & .active {
+      background-color: $primary;
+      pointer-events: none;
+
+      & p {
+        color: $white !important;
+      }
+
+      & svg path {
+        fill: $white;
       }
     }
     & .createNew {
@@ -388,17 +423,16 @@ html {
   }
 
   & .theme-container {
+    width: 100%;
     padding: 1.6rem 6.4rem;
-    margin-left: 2.4rem;
-    margin-right: 2.4rem;
     border-radius: 0.6rem;
     background-color: $background;
     @include flex-style(row, 2.4rem, center, space-between);
   }
 
   & .hide-button {
+    width: 100%;
     @include flex-style(row, 1.6rem, center, flex-start);
-    margin: 2.4rem;
     cursor: pointer;
     p {
       color: $medium-grey;
@@ -507,23 +541,25 @@ input:checked + .slider:before {
     }
   }
 
-  & .new-column {
-    height: 100%;
-    border-radius: 0.6rem;
-    background-color: $secondary;
-    transition: $transition-main;
-    margin-top: 3.8rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    & p {
-      color: $medium-grey;
-      text-align: center;
-    }
-    &:hover {
+  & .new-column-container {
+    padding-top: 3.8rem;
+    & .new-column {
+      height: 100%;
+      border-radius: 0.6rem;
+      background-color: $secondary;
+      transition: $transition-main;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       & p {
-        color: $primary;
+        color: $medium-grey;
+        text-align: center;
+      }
+      &:hover {
+        & p {
+          color: $primary;
+        }
       }
     }
   }
@@ -542,7 +578,7 @@ input:checked + .slider:before {
   & .filled {
     @include grid-style(grid, 2.4rem);
     grid-template-columns: repeat(4, 1fr);
-    margin: 2.4rem;
+    padding: 2.4rem;
     height: 100%;
   }
 
@@ -558,20 +594,12 @@ input:checked + .slider:before {
   }
 }
 
-// .main-layout {
-//   & .sidebar-container {
-//     grid-column: 1/2;
-//     grid-row: 1/3;
-//   }
-//   & .header-container {
-//     grid-column: 2/3;
-//     grid-row: 1/2;
-//   }
-//   & .empty {
-//     grid-column: 2/3;
-//     grid-row: 2/3;
-//   }
-// }
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px $surface inset !important;
+}
 
 .task-card-container {
   width: 100%;

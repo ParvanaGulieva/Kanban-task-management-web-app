@@ -1,15 +1,14 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { SidebarProps } from "types";
+import AddNewBoard from "../../Modals/AddNewBoard";
 import light from "../../assets/light.svg";
 import dark from "../../assets/dark.svg";
 import eye2 from "../../assets/eye2.svg";
-// import { SidebarProps } from "types";
 
-interface SidebarProps {
-  toggleTheme: () => void;
-}
-
-const Sidebar: React.FC<SidebarProps> = ({ toggleTheme }) => {
+const Sidebar = ({ toggleTheme, handleAddNewBoard }: SidebarProps) => {
   const [showSidebar, setShowSidebar] = useState(true);
+  const [showNewBoardModal, setShowNewBoardModal] = useState(false);
 
   const handleClickShowSidebar = () => {
     setShowSidebar(!showSidebar);
@@ -36,7 +35,9 @@ const Sidebar: React.FC<SidebarProps> = ({ toggleTheme }) => {
                   fill="#828FA3"
                 />
               </svg>
-              <p className="heading-M">Marketing plan</p>
+              {/* <Link to="/"> */}
+              <p className="heading-M">Platform Launch</p>
+              {/* </Link> */}
             </div>
             <div className="tab">
               <svg
@@ -53,9 +54,11 @@ const Sidebar: React.FC<SidebarProps> = ({ toggleTheme }) => {
                   fill="#828FA3"
                 />
               </svg>
-              <p className="heading-M">Marketing plan</p>
+              {/* <Link to="/marketing-plan"> */}
+              <p className="heading-M">Marketing Plan</p>
+              {/* </Link> */}
             </div>
-            <div className="tab">
+            <div className="tab active">
               <svg
                 width="16"
                 height="16"
@@ -70,9 +73,16 @@ const Sidebar: React.FC<SidebarProps> = ({ toggleTheme }) => {
                   fill="#828FA3"
                 />
               </svg>
-              <p className="heading-M">Marketing plan</p>
+              {/* <Link to="/roadmap"> */}
+              <p className="heading-M">Roadmap </p>
+              {/* </Link> */}
             </div>
-            <div className="tab createNew">
+            <div
+              className="tab createNew"
+              onClick={() => {
+                setShowNewBoardModal(true);
+              }}
+            >
               <svg
                 width="16"
                 height="16"
@@ -90,11 +100,12 @@ const Sidebar: React.FC<SidebarProps> = ({ toggleTheme }) => {
               <p className="heading-M">+ Create New Board</p>
             </div>
           </div>
+
           <div className="btn-container">
             <div className="theme-container">
               <img src={light} alt="theme-light" />
-              <label className="switch" onClick={() => toggleTheme()}>
-                <input type="checkbox" />
+              <label className="switch">
+                <input type="checkbox" onClick={toggleTheme} />
                 <span className="slider round"></span>
               </label>
               <img src={dark} alt="theme-dark" />
@@ -122,6 +133,9 @@ const Sidebar: React.FC<SidebarProps> = ({ toggleTheme }) => {
       <div className="open-sidebar" onClick={handleClickShowSidebar}>
         <img src={eye2} alt="close sidebar" />
       </div>
+      {showNewBoardModal && (
+        <AddNewBoard setShowNewBoardModal={setShowNewBoardModal} />
+      )}
     </>
   );
 };

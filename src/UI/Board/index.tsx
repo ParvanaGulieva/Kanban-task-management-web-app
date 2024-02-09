@@ -1,9 +1,9 @@
 import Button from "../../components/Button";
 import React from "react";
 import TaskCard from "../../components/TaskCard";
-import { NewBoardProps } from "types";
+import { DetailedTaskProps } from "types";
 
-const Board = ({ setAddNewBoard, setShowDetailedTask }: NewBoardProps) => {
+const Board = ({ setShowDetailedTask }: DetailedTaskProps) => {
   return (
     <div className="board-container">
       {/* <div className="empty">
@@ -67,8 +67,10 @@ const Board = ({ setAddNewBoard, setShowDetailedTask }: NewBoardProps) => {
             onClick={() => setShowDetailedTask && setShowDetailedTask(true)}
           />
         </div>
-        <div className="new-column" onClick={() => setAddNewBoard(true)}>
-          <p className="heading-XL">+ New Column</p>
+        <div className="new-column-container">
+          <div className="new-column">
+            <p className="heading-XL">+ New Column</p>
+          </div>
         </div>
       </div>
     </div>

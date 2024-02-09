@@ -25,10 +25,9 @@ const Dropdown = ({ label, placeholder }: DropdownProps) => {
       </div>
       {isOpen && (
         <ul className="dropdown-options">
-          <li onClick={() => selectOption("Net 1 Day")}>Net 1 Day</li>
-          <li onClick={() => selectOption("Net 7 Days")}>Net 7 Days</li>
-          <li onClick={() => selectOption("Net 14 Days")}>Net 14 Days</li>
-          <li onClick={() => selectOption("Net 30 Days")}>Net 30 Days</li>
+          <li onClick={() => selectOption("To do")}>To do</li>
+          <li onClick={() => selectOption("Doing")}>Doing</li>
+          <li onClick={() => selectOption("Done")}>Done</li>
         </ul>
       )}
     </div>

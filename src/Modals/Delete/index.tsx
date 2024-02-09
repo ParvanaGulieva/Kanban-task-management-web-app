@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from "react";
 import Button from "../../components/Button";
 import { HeaderProps } from "types";
 
-const Delete = ({ showDelete, setShowDelete }: HeaderProps) => {
+const Delete = ({ setShowDelete }: HeaderProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -27,7 +27,11 @@ const Delete = ({ showDelete, setShowDelete }: HeaderProps) => {
         </p>
         <div className="btn-container">
           <Button className="error" text="Delete" />
-          <Button className="secondary" text="Cancel" />
+          <Button
+            className="secondary"
+            text="Cancel"
+            onClick={() => setShowDelete?.(false)}
+          />
         </div>
       </div>
     </div>

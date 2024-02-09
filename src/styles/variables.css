@@ -1,0 +1,122 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
+.heading-XL {
+  color: #000112;
+  font-size: 2.4rem;
+  line-height: 3rem;
+  font-weight: 700;
+}
+
+.heading-L {
+  color: #000112;
+  font-size: 1.8rem;
+  line-height: 2.4rem;
+  font-weight: 700;
+}
+
+.heading-M {
+  color: #000112;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 600;
+}
+
+.heading-S {
+  color: #828fa3;
+  font-size: 1.2rem;
+  line-height: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.24rem;
+}
+
+.body-L {
+  color: #000112;
+  font-size: 1.3rem;
+  line-height: 2.3rem;
+  font-weight: 500;
+}
+
+.body-M {
+  color: #000112;
+  font-size: 1.2rem;
+  line-height: 1.5rem;
+  font-weight: 600;
+}
+
+.primary-L {
+  background-color: #635fc7;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  border-radius: 2.4rem;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  outline: none;
+  border: none;
+  padding: 1.4rem 4rem;
+}
+.primary-L:hover {
+  cursor: pointer;
+  transition: all 300ms;
+}
+.primary-L:hover {
+  background-color: #a8a4ff;
+}
+
+.primary-S {
+  background-color: #635fc7;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #ffffff;
+  border-radius: 2rem;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  outline: none;
+  border: none;
+  padding: 1.2rem 4rem;
+  width: 100%;
+}
+.primary-S:hover {
+  cursor: pointer;
+  transition: all 300ms;
+}
+.primary-S:hover {
+  background-color: #a8a4ff;
+}
+
+.secondary {
+  background-color: #efeff9;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #635fc7;
+  border-radius: 2rem;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  outline: none;
+  border: none;
+  padding: 1.2rem 4rem;
+  width: 100%;
+}
+.secondary:hover {
+  cursor: pointer;
+  transition: all 300ms;
+}
+.secondary:hover {
+  background-color: #d8d7f1;
+}
+
+.error {
+  background-color: #ea5555;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #ffffff;
+  border-radius: 2rem;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  outline: none;
+  border: none;
+  padding: 1.2rem 4rem;
+  width: 100%;
+}
+.error:hover {
+  cursor: pointer;
+  transition: all 300ms;
+}
+.error:hover {
+  background-color: #ff9898;
+}/*# sourceMappingURL=variables.css.map */

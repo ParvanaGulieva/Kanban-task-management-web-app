@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Board from "./UI/Board";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
@@ -8,36 +9,40 @@ import AddNewBoard from "./Modals/AddNewBoard";
 import Delete from "./Modals/Delete";
 
 function App() {
-  const [theme, setTheme] = useState("");
+  const [theme, setTheme] = useState(true);
   const [addNewTask, setAddNewTask] = useState(false);
-  const [addNewBoard, setAddNewBoard] = useState(false);
   const [showDetailedTask, setShowDetailedTask] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
+  const [boards, setBoards] = useState([
+    "Platform Launch",
+    "Marketing Plan",
+    "Roadmap",
+  ]);
 
   const toggleTheme = () => {
-    if (theme === "light") {
-      setTheme("dark");
-    } else {
-      setTheme("light");
-    }
+    setTheme(!theme);
+  };
+
+  const handleAddNewBoard = (boardName: string) => {
+    setBoards([...boards, boardName]);
   };
 
   return (
-    <div className={theme}>
+    <div className={theme ? `` : `dark`}>
       <Header
         setAddNewTask={setAddNewTask}
         setShowDelete={setShowDelete}
         showDelete={showDelete}
       />
       <div className="main-section">
-        <Sidebar toggleTheme={toggleTheme} />
-        <Board
-          setAddNewBoard={setAddNewBoard}
-          setShowDetailedTask={setShowDetailedTask}
+        <Sidebar
+          toggleTheme={toggleTheme}
+          handleAddNewBoard={handleAddNewBoard}
+          boards={boards}
         />
+        <Board setShowDetailedTask={setShowDetailedTask} />
       </div>
       {addNewTask && <AddNewTask setAddNewTask={setAddNewTask} />}
-      {addNewBoard && <AddNewBoard setAddNewBoard={setAddNewBoard} />}
       {showDetailedTask && (
         <DetailedTask setShowDetailedTask={setShowDetailedTask} />
       )}

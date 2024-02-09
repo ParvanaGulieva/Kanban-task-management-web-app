@@ -1,14 +1,52 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { NewBoardProps } from "types";
+import { FormikHelpers, FormikProps, useFormik } from "formik";
+import { boardSchema } from "../../validation/validation";
 
-const AddNewBoard = ({ setAddNewBoard }: NewBoardProps) => {
+const AddNewBoard = ({ setShowNewBoardModal }: NewBoardProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  const [boardName, setBoardName] = useState("");
+  const [columns, setColumns] = useState(["To do", "Doing"]);
+
+  const handleFormSubmit = (
+    values: { name: string; columns: string[] },
+    actions: FormikHelpers<{ name: string; columns: string[] }>
+  ) => {
+    console.log("Form submitted with values:", values);
+    actions.setSubmitting(false);
+  };
+
+  const formik: FormikProps<{
+    name: string;
+    columns: string[];
+  }> = useFormik({
+    initialValues: {
+      name: "",
+      columns: columns,
+    },
+    validationSchema: boardSchema,
+    onSubmit: handleFormSubmit,
+  });
+
+  const handleBoardNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setBoardName(e.target.value);
+  };
+
+  const handleColumnChange = (index: number, value: any) => {
+    const updatedColumns = [...formik.values.columns];
+    updatedColumns[index] = value;
+
+    formik.setValues({
+      ...formik.values,
+      columns: updatedColumns,
+    });
+  };
 
   const handleClickOutside = (event: MouseEvent) => {
     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-      setAddNewBoard(false);
+      setShowNewBoardModal(false);
     }
   };
 
@@ -17,70 +55,97 @@ const AddNewBoard = ({ setAddNewBoard }: NewBoardProps) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [setAddNewBoard]);
+  }, [setShowNewBoardModal]);
+
+  const handleCreateBoard = () => {
+    formik.handleSubmit();
+    if (formik.isValid) {
+      formik.resetForm();
+      setShowNewBoardModal(false);
+    }
+
+    console.log(formik.errors);
+  };
 
   return (
-    <div className="modal-container">
+    <form className="modal-container" onSubmit={formik.handleSubmit}>
       <div className="modal" ref={modalRef}>
         <p className="heading-L">Add New Board</p>
-        <Input type="text" placeholder="e.g. Web Design" label="Name" />
+        <Input
+          type="text"
+          placeholder="e.g. Web Design"
+          label="Name"
+          name="name"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.name}
+          errorMessage={formik.errors.name}
+        />
         <div className="columns">
           <p className="body-M">Columns</p>
-          <div className="column">
-            <Input placeholder="To do" type="text" />
-            <svg
-              width="15"
-              height="15"
-              viewBox="0 0 15 15"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect
-                x="12.728"
-                width="3"
-                height="18"
-                transform="rotate(45 12.728 0)"
-                fill="#828FA3"
+          {formik.values.columns.map((column, index) => (
+            <div className="column" key={index}>
+              <Input
+                placeholder="Column "
+                type="text"
+                name={`columns[${index}]`}
+                onChange={(e) => handleColumnChange(index, e.target.value)}
+                onBlur={formik.handleBlur}
+                value={formik.values.columns[index] || ""}
+                errorMessage={formik.errors.columns?.[index].columnName}
               />
-              <rect
-                y="2.12132"
-                width="3"
-                height="18"
-                transform="rotate(-45 0 2.12132)"
-                fill="#828FA3"
-              />
-            </svg>
-          </div>
-          <div className="column">
-            <Input placeholder="Doing" type="text" />
-            <svg
-              width="15"
-              height="15"
-              viewBox="0 0 15 15"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect
-                x="12.728"
-                width="3"
-                height="18"
-                transform="rotate(45 12.728 0)"
-                fill="#828FA3"
-              />
-              <rect
-                y="2.12132"
-                width="3"
-                height="18"
-                transform="rotate(-45 0 2.12132)"
-                fill="#828FA3"
-              />
-            </svg>
-          </div>
-          <Button className="secondary" text="+ Add New Column" />
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 15 15"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                onClick={() => {
+                  const updatedColumns = [...formik.values.columns];
+                  updatedColumns.splice(index, 1);
+                  formik.setValues({
+                    ...formik.values,
+                    columns: updatedColumns,
+                  });
+                }}
+              >
+                <rect
+                  x="12.728"
+                  width="3"
+                  height="18"
+                  transform="rotate(45 12.728 0)"
+                  fill="#828FA3"
+                />
+                <rect
+                  y="2.12132"
+                  width="3"
+                  height="18"
+                  transform="rotate(-45 0 2.12132)"
+                  fill="#828FA3"
+                />
+              </svg>
+            </div>
+          ))}
+          <Button // Add new column button
+            className="secondary"
+            text="+ Add New Column"
+            onClick={(e) => {
+              e.preventDefault();
+              formik.setValues({
+                ...formik.values,
+                columns: [...formik.values.columns, ""],
+              });
+            }}
+          />
         </div>
-        <Button className="primary-S" text="Create New Board" />
+        <Button
+          type="submit"
+          className="primary-S"
+          text="Create New Board"
+          onClick={handleCreateBoard}
+        />
       </div>
-    </div>
+    </form>
   );
 };
 

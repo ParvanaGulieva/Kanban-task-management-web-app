@@ -39,6 +39,12 @@
   padding: 1.2rem 1.6rem;
   border-radius: 0.4rem;
   font-family: $PlusJakartaSans;
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+  }
 }
 
 @mixin flex-style($direction, $gap, $alignment, $justify) {

@@ -3,6 +3,7 @@ import { MouseEventHandler } from "react";
 export interface ButtonProps {
   className: string;
   text: string;
+  type?: string;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
@@ -12,6 +13,10 @@ export interface InputProps {
   type: string;
   label?: string;
   errorMessage?: string;
+  name: string;
+  value: string;
+  onBlur: (event: React.FocusEvent<HTMLInputElement>) => void;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export interface DropdownProps {
@@ -20,7 +25,9 @@ export interface DropdownProps {
 }
 
 export interface SidebarProps {
-  toggleTheme: void;
+  toggleTheme: () => void;
+  boards: string[];
+  handleAddNewBoard: (boardName: string) => void;
 }
 
 export interface HeaderProps {
@@ -31,8 +38,8 @@ export interface HeaderProps {
 }
 
 export interface NewBoardProps {
-  setAddNewBoard: (value: boolean) => void;
-  setShowDetailedTask?: (value: boolean) => void;
+  // setAddNewBoard?: (value: boolean) => void;
+  setShowNewBoardModal: (value: boolean) => void;
 }
 
 export interface DetailedTaskProps {
