@@ -10,7 +10,7 @@ import Delete from "./Modals/Delete";
 
 function App() {
   const [theme, setTheme] = useState(true);
-  const [addNewTask, setAddNewTask] = useState(false);
+  const [showAddNewTask, setShowAddNewTask] = useState(false);
   const [showDetailedTask, setShowDetailedTask] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const [boards, setBoards] = useState([
@@ -30,7 +30,7 @@ function App() {
   return (
     <div className={theme ? `` : `dark`}>
       <Header
-        setAddNewTask={setAddNewTask}
+        setShowAddNewTask={setShowAddNewTask}
         setShowDelete={setShowDelete}
         showDelete={showDelete}
       />
@@ -42,7 +42,7 @@ function App() {
         />
         <Board setShowDetailedTask={setShowDetailedTask} />
       </div>
-      {addNewTask && <AddNewTask setAddNewTask={setAddNewTask} />}
+      {showAddNewTask && <AddNewTask setShowAddNewTask={setShowAddNewTask} />}
       {showDetailedTask && (
         <DetailedTask setShowDetailedTask={setShowDetailedTask} />
       )}
@@ -51,3 +51,5 @@ function App() {
 }
 
 export default App;
+
+// add new boardda ilkin olaraq submit eleyende form erroru gostermir

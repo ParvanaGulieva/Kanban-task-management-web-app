@@ -39,12 +39,6 @@
   padding: 1.2rem 1.6rem;
   border-radius: 0.4rem;
   font-family: $PlusJakartaSans;
-  input:-webkit-autofill,
-  input:-webkit-autofill:hover,
-  input:-webkit-autofill:focus,
-  input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 30px white inset !important;
-  }
 }
 
 @mixin flex-style($direction, $gap, $alignment, $justify) {
@@ -59,6 +53,9 @@
   border: 1px solid rgba(130, 143, 163, 0.25);
   padding: 0.8rem 1.6rem;
   border-radius: 0.4rem;
+  & .placeholder {
+    color: $medium-grey;
+  }
 }
 
 @mixin grid-style($grid, $gap) {

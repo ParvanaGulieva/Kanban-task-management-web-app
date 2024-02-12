@@ -27,7 +27,7 @@ const AddNewBoard = ({ setShowNewBoardModal }: NewBoardProps) => {
       columns: columns,
     },
     validationSchema: boardSchema,
-    onSubmit: handleFormSubmit,
+    // onSubmit: handleFormSubmit,
   });
 
   const handleBoardNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,12 +59,15 @@ const AddNewBoard = ({ setShowNewBoardModal }: NewBoardProps) => {
 
   const handleCreateBoard = () => {
     formik.handleSubmit();
-    if (formik.isValid) {
+    if (
+      formik.isValid &&
+      formik.values.name !== "" &&
+      formik.values.columns.length > 0
+    ) {
       formik.resetForm();
       setShowNewBoardModal(false);
     }
-
-    console.log(formik.errors);
+    // console.log(formik.errors);
   };
 
   return (
@@ -92,7 +95,7 @@ const AddNewBoard = ({ setShowNewBoardModal }: NewBoardProps) => {
                 onChange={(e) => handleColumnChange(index, e.target.value)}
                 onBlur={formik.handleBlur}
                 value={formik.values.columns[index] || ""}
-                errorMessage={formik.errors.columns?.[index].columnName}
+                errorMessage={formik.errors.columns?.[index]}
               />
               <svg
                 width="15"
@@ -126,10 +129,11 @@ const AddNewBoard = ({ setShowNewBoardModal }: NewBoardProps) => {
               </svg>
             </div>
           ))}
-          <Button // Add new column button
+          <Button
             className="secondary"
             text="+ Add New Column"
             onClick={(e) => {
+              // console.log(formik.values);
               e.preventDefault();
               formik.setValues({
                 ...formik.values,

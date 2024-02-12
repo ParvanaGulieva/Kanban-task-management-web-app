@@ -4,7 +4,11 @@ import logo from "../../assets/logo-light.svg";
 import { HeaderProps } from "types";
 import Delete from "../../Modals/Delete";
 
-const Header = ({ setAddNewTask, setShowDelete, showDelete }: HeaderProps) => {
+const Header = ({
+  setShowAddNewTask,
+  setShowDelete,
+  showDelete,
+}: HeaderProps) => {
   const [showMore, setShowMore] = useState(false);
 
   const handleClickMore = () => {
@@ -22,7 +26,7 @@ const Header = ({ setAddNewTask, setShowDelete, showDelete }: HeaderProps) => {
           <Button
             className="primary-L"
             text="+ Add New Task"
-            onClick={() => setAddNewTask?.(true)}
+            onClick={() => setShowAddNewTask?.(true)}
           />
           <svg
             onClick={handleClickMore}

@@ -1,4 +1,5 @@
 import { MouseEventHandler } from "react";
+import { FormikProps } from "formik";
 
 export interface ButtonProps {
   className: string;
@@ -22,6 +23,12 @@ export interface InputProps {
 export interface DropdownProps {
   label?: string;
   placeholder: string;
+  formik: FormikProps<{
+    title: string;
+    description: string;
+    subtasks: string[];
+    status: string;
+  }>;
 }
 
 export interface SidebarProps {
@@ -32,7 +39,7 @@ export interface SidebarProps {
 
 export interface HeaderProps {
   handleAddNewTask?: () => void;
-  setAddNewTask?: (value: boolean) => void;
+  setShowAddNewTask?: (value: boolean) => void;
   setShowDelete?: (value: boolean) => void;
   showDelete?: boolean;
 }
@@ -48,4 +55,8 @@ export interface DetailedTaskProps {
 
 export interface TaskCardProps {
   onClick: () => void;
+}
+
+export interface NewColumnProps {
+  setShowAddColumn: (value: boolean) => void;
 }

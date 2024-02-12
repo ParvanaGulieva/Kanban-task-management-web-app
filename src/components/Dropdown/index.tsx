@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import icon from "../../assets/dropdown.png";
 import { DropdownProps } from "types";
 
-const Dropdown = ({ label, placeholder }: DropdownProps) => {
+const Dropdown = ({ label, placeholder, formik }: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -10,6 +10,7 @@ const Dropdown = ({ label, placeholder }: DropdownProps) => {
   };
 
   const selectOption = (option: string) => {
+    formik.setFieldValue("status", option);
     setIsOpen(false);
   };
 
@@ -20,7 +21,11 @@ const Dropdown = ({ label, placeholder }: DropdownProps) => {
         className={isOpen ? "dropdown clicked" : "dropdown"}
         onClick={toggleDropdown}
       >
-        <p>{placeholder}</p>
+        {formik.values.status ? (
+          <p className="option">{formik.values.status}</p>
+        ) : (
+          <p className="placeholder">{placeholder}</p>
+        )}
         <img src={icon} alt="dropdownIcon" />
       </div>
       {isOpen && (
