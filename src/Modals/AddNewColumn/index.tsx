@@ -86,7 +86,7 @@ const AddNewColumn = ({ setShowAddColumn }: NewColumnProps) => {
             className="secondary"
             text="+ Add New Subtask"
             onClick={(e) => {
-              // console.log(formik.values);
+              console.log(formik.values);
               e.preventDefault();
               formik.setValues({
                 ...formik.values,
