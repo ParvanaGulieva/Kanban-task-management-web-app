@@ -2,38 +2,31 @@ import React, { useRef, useEffect, useState } from "react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { NewBoardProps } from "types";
-import { FormikHelpers, FormikProps, useFormik } from "formik";
-import { boardSchema } from "../../validation/validation";
+import BoardContext from "context/AddNewBoardContext";
+import { useContext } from "react";
 
-const AddNewBoard = ({ setShowNewBoardModal }: NewBoardProps) => {
+const AddNewBoard = ({
+  setShowNewBoardModal,
+  handleAddNewColumnButton,
+  formik,
+}: NewBoardProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
-  const [boardName, setBoardName] = useState("");
-  const [columns, setColumns] = useState(["To do", "Doing"]);
   const [showMessage, setShowMessage] = useState(false);
-
-  const handleFormSubmit = (
-    values: { name: string; columns: string[] },
-    actions: FormikHelpers<{ name: string; columns: string[] }>
-  ) => {
-    console.log("Form submitted with values:", values);
-    actions.setSubmitting(false);
+  const { addBoard } = useContext(BoardContext) as {
+    addBoard: (boardName: string) => void;
   };
 
-  const formik: FormikProps<{
-    name: string;
-    columns: string[];
-  }> = useFormik({
-    initialValues: {
-      name: "",
-      columns: columns,
-    },
-    validationSchema: boardSchema,
-    // onSubmit: handleFormSubmit,
-  });
+  // const handleFormSubmit = (
+  //   values: { name: string; columns: string[] },
+  //   actions: FormikHelpers<{ name: string; columns: string[] }>
+  // ) => {
+  //   console.log("Form submitted with values:", values);
+  //   actions.setSubmitting(false);
+  // };
 
-  const handleBoardNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setBoardName(e.target.value);
-  };
+  // const handleBoardNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setBoardName(e.target.value);
+  // };
 
   const handleColumnChange = (index: number, value: any) => {
     const updatedColumns = [...formik.values.columns];
@@ -58,22 +51,31 @@ const AddNewBoard = ({ setShowNewBoardModal }: NewBoardProps) => {
     };
   }, [setShowNewBoardModal]);
 
-  const handleCreateBoard = () => {
+  useEffect(() => {
+    setShowMessage(formik.values.columns.length === 0);
+  }, [formik.values.columns.length]);
+
+  const handleAddBoard = () => {
     formik.handleSubmit();
     if (
       formik.isValid &&
       formik.values.name !== "" &&
       formik.values.columns.length > 0
     ) {
+      addBoard(formik.values.name);
       formik.resetForm();
       setShowNewBoardModal(false);
     }
-    // console.log(formik.errors);
   };
 
-  useEffect(() => {
-    setShowMessage(formik.values.columns.length === 0);
-  }, [formik.values.columns.length]);
+  const handleRemoveButton = (index: number) => {
+    const updatedColumns = [...formik.values.columns];
+    updatedColumns.splice(index, 1);
+    formik.setValues({
+      ...formik.values,
+      columns: updatedColumns,
+    });
+  };
 
   return (
     <form className="modal-container" onSubmit={formik.handleSubmit}>
@@ -111,14 +113,7 @@ const AddNewBoard = ({ setShowNewBoardModal }: NewBoardProps) => {
                 viewBox="0 0 15 15"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                onClick={() => {
-                  const updatedColumns = [...formik.values.columns];
-                  updatedColumns.splice(index, 1);
-                  formik.setValues({
-                    ...formik.values,
-                    columns: updatedColumns,
-                  });
-                }}
+                onClick={() => handleRemoveButton(index)}
               >
                 <rect
                   x="12.728"
@@ -140,21 +135,14 @@ const AddNewBoard = ({ setShowNewBoardModal }: NewBoardProps) => {
           <Button
             className="secondary"
             text="+ Add New Column"
-            onClick={(e) => {
-              // console.log(formik.values);
-              e.preventDefault();
-              formik.setValues({
-                ...formik.values,
-                columns: [...formik.values.columns, ""],
-              });
-            }}
+            onClick={handleAddNewColumnButton}
           />
         </div>
         <Button
           type="submit"
           className="primary-S"
           text="Create New Board"
-          onClick={handleCreateBoard}
+          onClick={handleAddBoard}
         />
       </div>
     </form>

@@ -7,6 +7,7 @@ import DetailedTask from "./Modals/DetailedTask";
 import AddNewTask from "./Modals/AddNewTask";
 import AddNewBoard from "./Modals/AddNewBoard";
 import Delete from "./Modals/Delete";
+import { BoardProvider } from "context/AddNewBoardContext";
 
 function App() {
   const [theme, setTheme] = useState(true);
@@ -28,25 +29,27 @@ function App() {
   };
 
   return (
-    <div className={theme ? `` : `dark`}>
-      <Header
-        setShowAddNewTask={setShowAddNewTask}
-        setShowDelete={setShowDelete}
-        showDelete={showDelete}
-      />
-      <div className="main-section">
-        <Sidebar
-          toggleTheme={toggleTheme}
-          handleAddNewBoard={handleAddNewBoard}
-          boards={boards}
+    <BoardProvider>
+      <div className={theme ? `` : `dark`}>
+        <Header
+          setShowAddNewTask={setShowAddNewTask}
+          setShowDelete={setShowDelete}
+          showDelete={showDelete}
         />
-        <Board setShowDetailedTask={setShowDetailedTask} />
+        <div className="main-section">
+          <Sidebar
+            toggleTheme={toggleTheme}
+            handleAddNewBoard={handleAddNewBoard}
+            boards={boards}
+          />
+          <Board setShowDetailedTask={setShowDetailedTask} />
+        </div>
+        {showAddNewTask && <AddNewTask setShowAddNewTask={setShowAddNewTask} />}
+        {showDetailedTask && (
+          <DetailedTask setShowDetailedTask={setShowDetailedTask} />
+        )}
       </div>
-      {showAddNewTask && <AddNewTask setShowAddNewTask={setShowAddNewTask} />}
-      {showDetailedTask && (
-        <DetailedTask setShowDetailedTask={setShowDetailedTask} />
-      )}
-    </div>
+    </BoardProvider>
   );
 }
 

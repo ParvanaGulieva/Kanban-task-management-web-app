@@ -43,8 +43,6 @@ const AddNewColumn = ({ setShowAddColumn }: NewColumnProps) => {
     }
   };
 
-  console.log(formik.values.columns.length);
-
   const handleColumnChange = (index: number, value: any) => {
     const updatedColumns = [...formik.values.columns];
     updatedColumns[index] = value;

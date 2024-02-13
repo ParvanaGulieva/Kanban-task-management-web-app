@@ -47,6 +47,11 @@ export interface HeaderProps {
 export interface NewBoardProps {
   // setAddNewBoard?: (value: boolean) => void;
   setShowNewBoardModal: (value: boolean) => void;
+  formik: FormikProps<{
+    name: string;
+    columns: string[];
+  }>;
+  handleAddNewColumnButton: (e: React.SyntheticEvent) => void;
 }
 
 export interface DetailedTaskProps {
