@@ -9,6 +9,7 @@ import { FormikProps, useFormik } from "formik";
 const AddNewTask = ({ setShowAddNewTask }: HeaderProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const [subtasks, setSubtasks] = useState([]);
+  const [showMessage, setShowMessage] = useState(false);
 
   const handleClickOutside = (event: MouseEvent) => {
     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
@@ -63,6 +64,10 @@ const AddNewTask = ({ setShowAddNewTask }: HeaderProps) => {
     }
   };
 
+  useEffect(() => {
+    setShowMessage(formik.values.subtasks.length === 0);
+  }, [formik.values.subtasks.length]);
+
   return (
     <form className="modal-container" onSubmit={formik.handleSubmit}>
       <div className="modal" ref={modalRef}>
@@ -90,6 +95,9 @@ const AddNewTask = ({ setShowAddNewTask }: HeaderProps) => {
         />
         <div className="add-subtasks">
           <p className="body-M">Subtasks</p>
+          {showMessage && (
+            <p className="message body-L">At least 1 subtask is required</p>
+          )}
           {formik.values.subtasks.map((subtask, index) => (
             <div className="column" key={index}>
               <Input
@@ -133,7 +141,6 @@ const AddNewTask = ({ setShowAddNewTask }: HeaderProps) => {
               </svg>
             </div>
           ))}
-
           <Button
             className="secondary"
             text="+ Add New Subtask"

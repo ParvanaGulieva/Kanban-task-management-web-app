@@ -7,6 +7,8 @@ import { newColumnSchema } from "validation/validation";
 
 const AddNewColumn = ({ setShowAddColumn }: NewColumnProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  const [columns, setColumns] = useState([]);
+  const [showMessage, setShowMessage] = useState(false);
 
   const handleClickOutside = (event: MouseEvent) => {
     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
@@ -25,13 +27,37 @@ const AddNewColumn = ({ setShowAddColumn }: NewColumnProps) => {
     columns: string[];
   }> = useFormik({
     initialValues: {
-      columns: ["", ""],
+      columns: [""],
     },
     validationSchema: newColumnSchema,
     // onSubmit: handleFormSubmit,
   });
 
-  const handleCreateColumn = () => {};
+  const handleCreateColumn = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    formik.handleSubmit();
+    if (formik.isValid && formik.values.columns.length > 0) {
+      formik.resetForm();
+      setShowAddColumn(false);
+    }
+  };
+
+  console.log(formik.values.columns.length);
+
+  const handleColumnChange = (index: number, value: any) => {
+    const updatedColumns = [...formik.values.columns];
+    updatedColumns[index] = value;
+
+    formik.setValues({
+      ...formik.values,
+      columns: updatedColumns,
+    });
+  };
+
+  useEffect(() => {
+    setShowMessage(formik.values.columns.length === 0);
+  }, [formik.values.columns.length]);
 
   return (
     <form className="modal-container">
@@ -40,15 +66,15 @@ const AddNewColumn = ({ setShowAddColumn }: NewColumnProps) => {
         <div className="add-subtasks">
           {formik.values.columns.map((column, index) => (
             <div className="column" key={index}>
-              {/* <Input
+              <Input
                 placeholder="e.g. Make coffee "
                 type="text"
                 name={`columns[${index}]`}
-                onChange={(e) => handleSubtaskChange(index, e.target.value)}
+                onChange={(e) => handleColumnChange(index, e.target.value)}
                 onBlur={formik.handleBlur}
                 value={formik.values.columns[index] || ""}
                 errorMessage={formik.errors.columns?.[index]}
-              /> */}
+              />
               <svg
                 width="15"
                 height="15"
@@ -81,6 +107,9 @@ const AddNewColumn = ({ setShowAddColumn }: NewColumnProps) => {
               </svg>
             </div>
           ))}
+          {showMessage && (
+            <p className="message body-L">At least 1 column is required</p>
+          )}
 
           <Button
             className="secondary"

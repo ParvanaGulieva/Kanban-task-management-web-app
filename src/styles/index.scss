@@ -173,10 +173,9 @@ html {
   & .input-error {
     border-color: $error;
   }
-
-  & .message {
-    color: $error !important;
-  }
+}
+.message {
+  color: $error !important;
 }
 
 ::placeholder {
@@ -424,7 +423,7 @@ html {
 
   & .theme-container {
     width: 100%;
-    padding: 1.6rem 6.4rem;
+    padding: 1.6rem 2rem;
     border-radius: 0.6rem;
     background-color: $background;
     @include flex-style(row, 2.4rem, center, space-between);

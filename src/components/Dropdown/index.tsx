@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import icon from "../../assets/dropdown.png";
+import icon from "../../assets/dropdown.svg";
 import { DropdownProps } from "types";
 
 const Dropdown = ({ label, placeholder, formik }: DropdownProps) => {
