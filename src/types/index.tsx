@@ -4,7 +4,7 @@ import { FormikProps } from "formik";
 export interface ButtonProps {
   className: string;
   text: string;
-  type?: string;
+  type?: "button" | "submit" | "reset";
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 

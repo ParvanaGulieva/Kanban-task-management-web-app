@@ -4,39 +4,25 @@ import Button from "../../components/Button";
 import { NewBoardProps } from "types";
 import BoardContext from "context/AddNewBoardContext";
 import { useContext } from "react";
+import { FormikProps, useFormik } from "formik";
 
 const AddNewBoard = ({
   setShowNewBoardModal,
   handleAddNewColumnButton,
-  formik,
 }: NewBoardProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const [showMessage, setShowMessage] = useState(false);
-  const { addBoard } = useContext(BoardContext) as {
+  const {
+    addBoard,
+    formik,
+    handleColumnChange,
+    handleRemoveButton,
+  }: {
     addBoard: (boardName: string) => void;
-  };
-
-  // const handleFormSubmit = (
-  //   values: { name: string; columns: string[] },
-  //   actions: FormikHelpers<{ name: string; columns: string[] }>
-  // ) => {
-  //   console.log("Form submitted with values:", values);
-  //   actions.setSubmitting(false);
-  // };
-
-  // const handleBoardNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setBoardName(e.target.value);
-  // };
-
-  const handleColumnChange = (index: number, value: any) => {
-    const updatedColumns = [...formik.values.columns];
-    updatedColumns[index] = value;
-
-    formik.setValues({
-      ...formik.values,
-      columns: updatedColumns,
-    });
-  };
+    formik: FormikProps<{ name: string; columns: string[] }>;
+    handleColumnChange: (index: number, value: any) => void;
+    handleRemoveButton: (index: number) => void;
+  } = useContext(BoardContext) as any;
 
   const handleClickOutside = (event: MouseEvent) => {
     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
@@ -66,15 +52,6 @@ const AddNewBoard = ({
       formik.resetForm();
       setShowNewBoardModal(false);
     }
-  };
-
-  const handleRemoveButton = (index: number) => {
-    const updatedColumns = [...formik.values.columns];
-    updatedColumns.splice(index, 1);
-    formik.setValues({
-      ...formik.values,
-      columns: updatedColumns,
-    });
   };
 
   return (

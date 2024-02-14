@@ -1,4 +1,6 @@
 import React, { createContext, useState, useContext, ReactNode } from "react";
+import { FormikProps, useFormik } from "formik";
+import { boardSchema } from "validation/validation";
 
 const BoardContext = createContext<BoardContextType | undefined>(undefined);
 
@@ -19,13 +21,54 @@ export const BoardProvider: React.FC<BoardProviderProps> = ({ children }) => {
     "Roadmap",
   ]);
 
+  const formik: FormikProps<{
+    name: string;
+    columns: string[];
+  }> = useFormik({
+    initialValues: {
+      name: "",
+      columns: columns,
+    },
+    validationSchema: boardSchema,
+    // onSubmit: handleFormSubmit,
+  });
+
   const addBoard = (boardName: string) => {
     setBoards([...boards, boardName]);
-    console.log(boards);
+    // console.log(boards);
+  };
+
+  const handleColumnChange = (index: number, value: any) => {
+    const updatedColumns = [...formik.values.columns];
+    updatedColumns[index] = value;
+
+    formik.setValues({
+      ...formik.values,
+      columns: updatedColumns,
+    });
+  };
+
+  const handleRemoveButton = (index: number) => {
+    const updatedColumns = [...formik.values.columns];
+    updatedColumns.splice(index, 1);
+    formik.setValues({
+      ...formik.values,
+      columns: updatedColumns,
+    });
   };
 
   return (
-    <BoardContext.Provider value={{ boards, addBoard, columns, setColumns }}>
+    <BoardContext.Provider
+      value={{
+        boards,
+        addBoard,
+        columns,
+        setColumns,
+        formik,
+        handleColumnChange,
+        handleRemoveButton,
+      }}
+    >
       {children}
     </BoardContext.Provider>
   );

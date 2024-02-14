@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { FormikHelpers, FormikProps, useFormik } from "formik";
-import { boardSchema } from "validation/validation";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { SidebarProps } from "types";
@@ -13,22 +11,10 @@ import eye2 from "../../assets/eye2.svg";
 const Sidebar = ({ toggleTheme, handleAddNewBoard }: SidebarProps) => {
   const [showSidebar, setShowSidebar] = useState(true);
   const [showNewBoardModal, setShowNewBoardModal] = useState(false);
-  const { boards, columns } = useContext(BoardContext) as {
+  const { boards, columns, formik } = useContext(BoardContext) as {
     boards: string[];
     columns: string[];
   };
-
-  const formik: FormikProps<{
-    name: string;
-    columns: string[];
-  }> = useFormik({
-    initialValues: {
-      name: "",
-      columns: columns,
-    },
-    validationSchema: boardSchema,
-    // onSubmit: handleFormSubmit,
-  });
 
   const handleClickShowSidebar = () => {
     setShowSidebar(!showSidebar);
@@ -129,7 +115,6 @@ const Sidebar = ({ toggleTheme, handleAddNewBoard }: SidebarProps) => {
       {showNewBoardModal && (
         <AddNewBoard
           setShowNewBoardModal={setShowNewBoardModal}
-          formik={formik}
           handleAddNewColumnButton={handleAddNewColumnButton}
         />
       )}
