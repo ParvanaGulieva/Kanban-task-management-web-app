@@ -13,39 +13,45 @@ type ColumnProviderProps = {
 };
 
 export const ColumnProvider: React.FC<ColumnProviderProps> = ({ children }) => {
-  const [columns, setColumns] = useState([""]);
+  const [columns, setColumns] = useState(["TODO", "DOING", "DONE"]);
+  const [newColumns, setNewColumns] = useState([""]);
 
   const formik: FormikProps<{
     columns: string[];
   }> = useFormik({
     initialValues: {
-      columns: columns,
+      columns: newColumns,
     },
     validationSchema: newColumnSchema,
     // onSubmit: handleFormSubmit,
   });
 
-  const addColumn = (columnName: string) => {
-    setColumns([...columns, columnName]);
-    // console.log(columns);
+  const addColumn = (columnNames: string[]) => {
+    setNewColumns([
+      ...newColumns,
+      ...columnNames.filter((column) => column !== ""),
+    ]);
   };
 
   const handleRemoveButton = (index: number) => {
-    const updatedColumns = [...formik.values.columns];
+    const updatedColumns = [...newColumns];
     updatedColumns.splice(index, 1);
-    formik.setValues({
-      ...formik.values,
-      columns: updatedColumns,
-    });
+    setNewColumns(updatedColumns);
   };
 
-  const handleAddAnotherColumn = (e: React.SyntheticEvent<EventTarget>) => {
-    console.log(formik.values);
+  const handleAddNewColumnButton = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    formik.setValues({
-      ...formik.values,
-      columns: [...formik.values.columns, ""],
-    });
+    // const updatedColumns = [...newColumns, ""];
+    // setNewColumns(updatedColumns);
+    // console.log(newColumns);
+    console.log("handleAddNewColumnButton");
+  };
+
+  const handleColumnChange = (index: number, value: any) => {
+    // const updatedColumns = [...newColumns];
+    // updatedColumns[index] = value;
+    // setNewColumns(updatedColumns);
+    console.log("handlecolumnchange");
   };
 
   return (
@@ -55,7 +61,8 @@ export const ColumnProvider: React.FC<ColumnProviderProps> = ({ children }) => {
         formik,
         addColumn,
         handleRemoveButton,
-        handleAddAnotherColumn,
+        handleAddNewColumnButton,
+        handleColumnChange,
       }}
     >
       {children}

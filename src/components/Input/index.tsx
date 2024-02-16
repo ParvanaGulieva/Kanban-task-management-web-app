@@ -5,7 +5,6 @@ const Input = ({
   label,
   placeholder,
   type,
-  // className,
   errorMessage,
   name,
   onChange,
@@ -19,7 +18,6 @@ const Input = ({
       <input
         type={type}
         placeholder={placeholder}
-        // className={className}
         value={value}
         name={name}
         onChange={onChange}

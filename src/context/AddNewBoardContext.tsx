@@ -9,9 +9,7 @@ interface BoardContextType {
   addBoard: (boardName: string) => void;
 }
 
-type BoardProviderProps = {
-  children: ReactNode;
-};
+type BoardProviderProps = { handleAddNewColumnButton; children: ReactNode };
 
 export const BoardProvider: React.FC<BoardProviderProps> = ({ children }) => {
   const [columns, setColumns] = useState(["To do", "Doing"]);

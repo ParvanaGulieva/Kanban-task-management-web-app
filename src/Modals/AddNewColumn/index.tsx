@@ -11,12 +11,14 @@ const AddNewColumn = ({ setShowAddColumn }: NewColumnProps) => {
     formik,
     addColumn,
     handleRemoveButton,
-    handleAddAnotherColumn,
+    handleAddNewColumnButton,
+    handleColumnChange,
   }: {
     formik: FormikProps<{ columns: string[] }>;
     addColumn: (columnName: string) => void;
     handleRemoveButton: (index: number) => void;
-    handleAddAnotherColumn: (e: React.SyntheticEvent<EventTarget>) => void;
+    handleAddNewColumnButton: (e: React.SyntheticEvent<EventTarget>) => void;
+    handleColumnChange: (index: number, value: string) => void;
   } = useContext(ColumnContext) as any;
 
   const modalRef = useRef<HTMLDivElement>(null);
@@ -35,28 +37,21 @@ const AddNewColumn = ({ setShowAddColumn }: NewColumnProps) => {
     };
   }, [setShowAddColumn]);
 
-  const handleCreateColumn = (
-    e: React.SyntheticEvent<EventTarget>,
-    index: number
-  ) => {
+  const handleCreateColumn = (e: React.SyntheticEvent<EventTarget>) => {
     e.preventDefault();
-    formik.handleSubmit();
-    if (formik.isValid && formik.values.columns.length > 0) {
-      // console.log(formik.values.columns[formik.values.columns.length - 1]);
-      addColumn(formik.values.columns[formik.values.columns.length - 1]);
-      formik.resetForm();
-      setShowAddColumn(false);
-    }
-  };
+    console.log("handleCreateColumn");
+    // formik.handleSubmit();
+    // if (
+    //   formik.isValid &&
+    //   formik.values.columns.length > 0 &&
+    //   formik.values.columns[formik.values.columns.length - 1] !== ""
+    // ) {
+    //   addColumn(formik.values.columns[-1]);
+    //   formik.resetForm();
+    //   setShowAddColumn(false);
+    // }
 
-  const handleColumnChange = (index: number, value: any) => {
-    const updatedColumns = [...formik.values.columns];
-    updatedColumns[index] = value;
-
-    formik.setValues({
-      ...formik.values,
-      columns: updatedColumns,
-    });
+    // console.log(formik.values.columns);
   };
 
   useEffect(() => {
@@ -113,7 +108,7 @@ const AddNewColumn = ({ setShowAddColumn }: NewColumnProps) => {
           <Button
             className="secondary"
             text="+ Add New Column"
-            onClick={handleAddAnotherColumn}
+            onClick={handleAddNewColumnButton}
           />
         </div>
         <Button
