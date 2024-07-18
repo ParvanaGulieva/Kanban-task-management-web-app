@@ -1,9 +1,5 @@
 @import "./variables.scss";
 @import "./mixins.scss";
-/* http://meyerweb.com/eric/tools/css/reset/ 
-   v2.0 | 20110126
-   License: none (public domain)
-*/
 
 html,
 body,
@@ -93,7 +89,6 @@ video {
   font: inherit;
   vertical-align: baseline;
 }
-/* HTML5 display-role reset for older browsers */
 article,
 aside,
 details,
@@ -160,7 +155,8 @@ html {
   & .text-area {
     height: 11.2rem;
   }
-  & input {
+  & input,
+  & textarea {
     @include input-style();
     width: 100%;
 
@@ -322,12 +318,14 @@ html {
 
   & .more-container {
     position: absolute;
+    z-index: 1;
     padding: 1.6rem;
     background: $surface;
     border-radius: 0.8rem;
     width: 19.2rem;
     top: 9rem;
     right: 2.4rem;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 
     & p {
       cursor: pointer;
@@ -341,11 +339,11 @@ html {
   & .logo-container {
     border-right: 1px solid $stroke;
     padding: 4.2rem 8rem 4.2rem 3.2rem;
-    width: 20%;
+    width: 16%;
   }
 
   & .main {
-    width: 80%;
+    width: 84%;
 
     @include flex-style(row, 0, center, space-between);
     padding: 3.2rem 2.4rem;
@@ -355,7 +353,7 @@ html {
 .sidebar-container {
   z-index: 10;
   border-right: 1px solid $stroke;
-  width: 20%;
+  width: 16%;
   height: 100%;
   background-color: $surface;
 
@@ -530,7 +528,7 @@ input:checked + .slider:before {
 
 .board-container {
   height: 100%;
-  width: 100%;
+  width: 84%;
   & .empty {
     @include flex-style(column, 2.4rem, center, center);
     height: 100%;
@@ -574,20 +572,26 @@ input:checked + .slider:before {
     }
   }
 
-  & .filled {
-    @include grid-style(grid, 2.4rem);
-    grid-template-columns: repeat(4, 1fr);
-    padding: 2.4rem;
-    height: 100%;
-  }
-
   & .column {
     @include flex-style(column, 1.2rem, flex-start, flex-start);
-    &.to-do .round {
+    &.todo .round {
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 100%;
+      background-color: $primary;
+    }
+
+    &.doing .round {
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 100%;
       background-color: #49c4e5;
     }
 
     &.done .round {
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 100%;
       background-color: #67e2ae;
     }
   }
@@ -685,7 +689,8 @@ input:-webkit-autofill:active {
 
     & .title-container {
       position: relative;
-      @include flex-style(row, 2.4rem, center, space-between);
+      @include flex-style(row, 2.4rem, flex-start, space-between);
+      width: 100%;
 
       & svg {
         cursor: pointer;
@@ -696,9 +701,11 @@ input:-webkit-autofill:active {
         padding: 1.6rem;
         background: $background;
         border-radius: 0.8rem;
-        width: 19.2rem;
-        top: 6rem;
+        width: 15rem;
+        top: 5rem;
         right: -20%;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        z-index: 1;
 
         & p {
           cursor: pointer;
@@ -727,4 +734,24 @@ textarea {
 .main-section {
   @include flex-style(row, 0, center, flex-start);
   height: calc(100vh - 111px);
+}
+
+.option-container {
+  @include flex-style(column, 0.8rem, flex-start, flex-start);
+  width: 100%;
+  & .body-M {
+    color: #828fa3;
+  }
+
+  & .option {
+    border: 1px solid rgba(130, 143, 163, 0.25) !important;
+    padding: 0.8rem 1.6rem;
+    width: 100%;
+    border-radius: 0.4rem;
+
+    & p {
+      color: $text-color !important;
+      opacity: 0.5;
+    }
+  }
 }

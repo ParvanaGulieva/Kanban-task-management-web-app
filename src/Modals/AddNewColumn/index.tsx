@@ -1,28 +1,17 @@
 import React, { useRef, useState, useEffect } from "react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
-import { NewColumnProps } from "types";
-import { FormikProps } from "formik";
-import { useContext } from "react";
-import ColumnContext from "context/AddNewColumnContext";
+import { NewColumnProps } from "../../types";
+import { useColumnContext } from "../../context/AddNewColumnContext";
+import { newColumnSchema } from "../../validation/validation";
+import { useFormik } from "formik";
+import { useBoardContext } from "../../context/AddNewBoardContext";
 
 const AddNewColumn = ({ setShowAddColumn }: NewColumnProps) => {
-  const {
-    formik,
-    addColumn,
-    handleRemoveButton,
-    handleAddNewColumnButton,
-    handleColumnChange,
-  }: {
-    formik: FormikProps<{ columns: string[] }>;
-    addColumn: (columnName: string) => void;
-    handleRemoveButton: (index: number) => void;
-    handleAddNewColumnButton: (e: React.SyntheticEvent<EventTarget>) => void;
-    handleColumnChange: (index: number, value: string) => void;
-  } = useContext(ColumnContext) as any;
-
   const modalRef = useRef<HTMLDivElement>(null);
   const [showMessage, setShowMessage] = useState(false);
+  const { addColumn } = useColumnContext();
+  const { boards, activeTab } = useBoardContext();
 
   const handleClickOutside = (event: MouseEvent) => {
     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
@@ -37,42 +26,47 @@ const AddNewColumn = ({ setShowAddColumn }: NewColumnProps) => {
     };
   }, [setShowAddColumn]);
 
-  const handleCreateColumn = (e: React.SyntheticEvent<EventTarget>) => {
-    e.preventDefault();
-    console.log("handleCreateColumn");
-    // formik.handleSubmit();
-    // if (
-    //   formik.isValid &&
-    //   formik.values.columns.length > 0 &&
-    //   formik.values.columns[formik.values.columns.length - 1] !== ""
-    // ) {
-    //   addColumn(formik.values.columns[-1]);
-    //   formik.resetForm();
-    //   setShowAddColumn(false);
-    // }
-
-    // console.log(formik.values.columns);
-  };
+  const formik = useFormik({
+    initialValues: {
+      columns: [{ name: "" }],
+    },
+    validationSchema: newColumnSchema,
+    onSubmit: (values) => {
+      if (
+        formik.isValid &&
+        formik.values.columns.length > 0 &&
+        values.columns[values.columns.length - 1].name !== ""
+      ) {
+        values.columns.map((column) => {
+          if (column.name !== "") {
+            addColumn(boards[activeTab].id, column.name);
+          }
+        });
+        formik.resetForm();
+        setShowAddColumn(false);
+      }
+    },
+  });
 
   useEffect(() => {
     setShowMessage(formik.values.columns.length === 0);
   }, [formik.values.columns.length]);
 
   return (
-    <form className="modal-container">
+    <form className="modal-container" onSubmit={formik.handleSubmit}>
       <div className="modal" ref={modalRef}>
         <p className="heading-L">Add New Column</p>
         <div className="add-subtasks">
-          {formik.values.columns.map((column: string, index: number) => (
+          {formik.values.columns.map((column, index) => (
             <div className="column" key={index}>
               <Input
-                placeholder="e.g. Make coffee "
+                placeholder="e.g. Make coffee"
                 type="text"
-                name={`columns[${index}]`}
-                onChange={(e) => handleColumnChange(index, e.target.value)}
+                name={`columns[${index}].name`}
+                onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.columns[index] || ""}
-                errorMessage={formik.errors.columns?.[index]}
+                value={column.name || ""}
+                errorMessage={formik.errors.columns?.[index]?.name}
               />
               <svg
                 width="15"
@@ -81,7 +75,10 @@ const AddNewColumn = ({ setShowAddColumn }: NewColumnProps) => {
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
                 onClick={() => {
-                  handleRemoveButton(index);
+                  formik.setFieldValue(
+                    "columns",
+                    formik.values.columns.filter((_, i) => i !== index)
+                  );
                 }}
               >
                 <rect
@@ -108,14 +105,19 @@ const AddNewColumn = ({ setShowAddColumn }: NewColumnProps) => {
           <Button
             className="secondary"
             text="+ Add New Column"
-            onClick={handleAddNewColumnButton}
+            onClick={() => {
+              formik.setFieldValue("columns", [
+                ...formik.values.columns,
+                { name: "" },
+              ]);
+            }}
           />
         </div>
         <Button
           className="primary-S"
           text="Create Columns"
           type="submit"
-          onClick={handleCreateColumn}
+          onClick={() => formik.handleSubmit()}
         />
       </div>
     </form>

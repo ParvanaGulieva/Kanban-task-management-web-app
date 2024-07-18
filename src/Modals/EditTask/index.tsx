@@ -5,15 +5,82 @@ import Button from "../../components/Button";
 import TextArea from "../../components/TextArea";
 import { HeaderProps } from "../../types/index";
 import { useTaskContext } from "../../context/AddNewTaskContext";
+import { useFormik } from "formik";
+import { useBoardContext } from "../../context/AddNewBoardContext";
 
-const AddNewTask = ({ setShowAddNewTask }: HeaderProps) => {
+const EditTask = ({ setShowAddNewTask }: HeaderProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const [showMessage, setShowMessage] = useState(false);
-  const { formik } = useTaskContext();
+  const { boards, activeTab } = useBoardContext();
+  const { updateTask, selectedTask, setShowEditTask } = useTaskContext();
+
+  const getColumnId = () => {
+    const column = boards[activeTab].columns.find((col) =>
+      col.tasks.some((task) => task.id === selectedTask?.id)
+    );
+    return column ? column.id : null;
+  };
+
+  const columnId = getColumnId();
+  const selectedTaskColumn = boards[activeTab].columns.find(
+    (column) => column.id === columnId
+  );
+
+  const formik = useFormik({
+    initialValues: {
+      title: selectedTask?.title || "",
+      description: selectedTask?.description || "",
+      subtasks: selectedTask?.subtasks || [],
+      status: selectedTaskColumn?.name || "",
+    },
+    onSubmit: (values) => {
+      if (
+        values.title !== "" &&
+        values.description !== "" &&
+        values.status !== "" &&
+        values.subtasks.length > 0 &&
+        columnId &&
+        selectedTask
+      ) {
+        const updatedTask = {
+          ...selectedTask,
+          title: values.title,
+          description: values.description,
+          subtasks: values.subtasks,
+          status: values.status,
+        };
+
+        updateTask(
+          boards[activeTab].id,
+          columnId,
+          selectedTask.id,
+          updatedTask
+        );
+        setShowEditTask(false);
+      }
+    },
+    validate: (values) => {
+      const errors: any = {};
+      if (!values.title) {
+        errors.title = "Required";
+      }
+      if (!values.description) {
+        errors.description = "Required";
+      }
+      if (!values.status) {
+        errors.status = "Required";
+      }
+      if (values.subtasks.length === 0) {
+        errors.subtasks = "At least one subtask is required";
+      }
+
+      return errors;
+    },
+  });
 
   const handleClickOutside = (event: MouseEvent) => {
     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-      setShowAddNewTask?.(false);
+      setShowEditTask?.(false);
       formik.resetForm();
     }
   };
@@ -28,7 +95,7 @@ const AddNewTask = ({ setShowAddNewTask }: HeaderProps) => {
   return (
     <form className="modal-container" onSubmit={formik.handleSubmit}>
       <div className="modal" ref={modalRef}>
-        <p className="heading-L">Add New Task</p>
+        <p className="heading-L">Edit Task</p>
         <Input
           label="Title"
           placeholder="e.g. Take coffee break"
@@ -59,12 +126,12 @@ const AddNewTask = ({ setShowAddNewTask }: HeaderProps) => {
             return (
               <div className="column" key={index}>
                 <Input
-                  placeholder="e.g. Make coffee "
+                  placeholder="e.g. Make coffee"
                   type="text"
                   name={`subtasks[${index}].title`}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.subtasks[index].title || ""}
+                  value={subtask?.title || ""}
                   errorMessage={formik.errors.subtasks?.[index]?.title}
                 />
                 <svg
@@ -76,10 +143,7 @@ const AddNewTask = ({ setShowAddNewTask }: HeaderProps) => {
                   onClick={() => {
                     const updatedSubtasks = [...formik.values.subtasks];
                     updatedSubtasks.splice(index, 1);
-                    formik.setValues({
-                      ...formik.values,
-                      subtasks: updatedSubtasks,
-                    });
+                    formik.setFieldValue("subtasks", updatedSubtasks);
                   }}
                 >
                   <rect
@@ -112,10 +176,10 @@ const AddNewTask = ({ setShowAddNewTask }: HeaderProps) => {
             }}
           />
         </div>
-        <Dropdown label="Status" placeholder="Select" />
+        <Dropdown label="Status" placeholder="Select" editFormik={formik} />
         <Button
           className="primary-S"
-          text="Create task"
+          text="Save Changes"
           type="submit"
           onClick={(e) => {
             e.preventDefault();
@@ -132,4 +196,4 @@ const AddNewTask = ({ setShowAddNewTask }: HeaderProps) => {
   );
 };
 
-export default AddNewTask;
+export default EditTask;

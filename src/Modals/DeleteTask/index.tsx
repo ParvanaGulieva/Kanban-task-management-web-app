@@ -1,9 +1,11 @@
 import React, { useRef, useEffect } from "react";
 import Button from "../../components/Button";
-import { HeaderProps } from "types";
+import { HeaderProps } from "../../types";
+import { useTaskContext } from "../../context/AddNewTaskContext";
 
-const Delete = ({ setShowDelete }: HeaderProps) => {
+const DeleteTask = ({ setShowDelete, handleButton }: HeaderProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  const { selectedTask } = useTaskContext();
 
   const handleClickOutside = (event: MouseEvent) => {
     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
@@ -17,20 +19,31 @@ const Delete = ({ setShowDelete }: HeaderProps) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [setShowDelete]);
+
   return (
     <div className="modal-container">
       <div className="modal delete" ref={modalRef}>
-        <p className="heading-L delete-title">Delete this board?</p>
+        <p className="heading-L delete-title">Delete this task?</p>
         <p className="body-L">
-          Are you sure you want to delete the ‘Platform Launch’ board? This
-          action will remove all columns and tasks and cannot be reversed.
+          Are you sure you want to delete the ‘{selectedTask?.title}’ task and
+          its subtasks? This action cannot be reversed.
         </p>
         <div className="btn-container">
-          <Button className="error" text="Delete" />
           <Button
             className="secondary"
             text="Cancel"
             onClick={() => setShowDelete?.(false)}
+          />
+          <Button
+            className="error"
+            text="Delete"
+            onClick={(e) => {
+              e.preventDefault();
+              if (handleButton) {
+                handleButton();
+              }
+              //   console.log("hello");
+            }}
           />
         </div>
       </div>
@@ -38,4 +51,4 @@ const Delete = ({ setShowDelete }: HeaderProps) => {
   );
 };
 
-export default Delete;
+export default DeleteTask;

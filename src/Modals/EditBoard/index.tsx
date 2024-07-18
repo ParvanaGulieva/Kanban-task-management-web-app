@@ -1,29 +1,39 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { useBoardContext } from "../../context/AddNewBoardContext";
 import { useFormik } from "formik";
-import { boardSchema } from "../../validation/validation";
 
-const AddNewBoard = () => {
+const EditBoard = () => {
   const modalRef = useRef<HTMLDivElement>(null);
-  const { setShowNewBoardModal, addBoard } = useBoardContext();
+  const [showMessage, setShowMessage] = useState(false);
+  const { boards, activeTab, updateBoard, setShowEditBoard, updateColumn } =
+    useBoardContext();
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      columns: ["Todo", "Doing", "Done"],
+      name: boards[activeTab].name,
+      columns: boards[activeTab].columns.map((column) => column.name),
     },
-    validationSchema: boardSchema,
     onSubmit: (values) => {
-      addBoard(values.name, values.columns);
-      setShowNewBoardModal(false);
+      if (values.columns.length > 0) {
+        updateBoard(boards[activeTab].id, values.name, values.columns);
+        setShowEditBoard(false);
+      }
+    },
+    validate: (values) => {
+      const errors: any = {};
+      if (!values.name) {
+        errors.name = "Required";
+      }
+
+      return errors;
     },
   });
 
   const handleClickOutside = (event: MouseEvent) => {
     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-      setShowNewBoardModal(false);
+      setShowEditBoard(false);
     }
   };
 
@@ -32,20 +42,20 @@ const AddNewBoard = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [setShowNewBoardModal]);
+  }, [setShowEditBoard]);
 
-  // useEffect(() => {
-  //   setShowMessage(formik.values.columns.length === 0);
-  // }, [formik.values.columns.length]);
+  useEffect(() => {
+    setShowMessage(formik.values.columns.length === 0);
+  }, [formik.values.columns.length]);
 
   return (
     <form className="modal-container" onSubmit={formik.handleSubmit}>
       <div className="modal" ref={modalRef}>
-        <p className="heading-L">Add New Board</p>
+        <p className="heading-L">Edit Board</p>
         <Input
           type="text"
           placeholder="e.g. Web Design"
-          label="Name"
+          label="Board Name"
           name="name"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
@@ -53,13 +63,11 @@ const AddNewBoard = () => {
           errorMessage={formik.errors.name}
         />
         <div className="columns">
-          {formik.values.columns.length !== 0 && (
-            <p className="body-M">Columns</p>
-          )}
-          {/* {showMessage && (
+          <p className="body-M">Board Columns</p>
+          {showMessage && (
             <p className="message body-L">At least 1 column is required</p>
-          )} */}
-          {formik.values.columns.map((column, index) => (
+          )}
+          {formik.values.columns.map((column, index: number) => (
             <div className="column" key={index}>
               <Input
                 placeholder="Column "
@@ -103,7 +111,8 @@ const AddNewBoard = () => {
           <Button
             className="secondary"
             text="+ Add New Column"
-            onClick={() => {
+            onClick={(event) => {
+              event.preventDefault();
               formik.setFieldValue("columns", [...formik.values.columns, ""]);
             }}
           />
@@ -111,7 +120,7 @@ const AddNewBoard = () => {
         <Button
           type="submit"
           className="primary-S"
-          text="Create New Board"
+          text="Save Changes"
           onClick={() => {
             formik.handleSubmit();
           }}
@@ -121,4 +130,4 @@ const AddNewBoard = () => {
   );
 };
 
-export default AddNewBoard;
+export default EditBoard;
