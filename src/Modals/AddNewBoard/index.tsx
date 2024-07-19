@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { useBoardContext } from "../../context/AddNewBoardContext";
@@ -19,15 +19,20 @@ const AddNewBoard = () => {
       addBoard(values.name, values.columns);
       setShowNewBoardModal(false);
     },
+    validateOnChange: false,
+    validateOnBlur: false,
   });
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-      setShowNewBoardModal(false);
-    }
-  };
-
   useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        setShowNewBoardModal(false);
+      }
+    };
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);

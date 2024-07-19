@@ -47,6 +47,7 @@ export interface HeaderProps {
   handleButton?: () => void;
   showEditBoard?: boolean;
   setShowEditBoard?: (value: boolean) => void;
+  handleDelete?: () => void;
 }
 
 export interface NewBoardProps {

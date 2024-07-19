@@ -76,21 +76,26 @@ const EditTask = ({ setShowAddNewTask }: HeaderProps) => {
 
       return errors;
     },
+    validateOnChange: false,
+    validateOnBlur: false,
   });
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-      setShowEditTask?.(false);
-      formik.resetForm();
-    }
-  };
-
   useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        setShowEditTask?.(false);
+        formik.resetForm();
+      }
+    };
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [setShowAddNewTask]);
+  }, [formik, setShowEditTask]);
 
   return (
     <form className="modal-container" onSubmit={formik.handleSubmit}>

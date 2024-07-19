@@ -11,19 +11,22 @@ const AddNewTask = ({ setShowAddNewTask }: HeaderProps) => {
   const [showMessage, setShowMessage] = useState(false);
   const { formik } = useTaskContext();
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-      setShowAddNewTask?.(false);
-      formik.resetForm();
-    }
-  };
-
   useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        setShowAddNewTask?.(false);
+        formik.resetForm();
+      }
+    };
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [setShowAddNewTask]);
+  }, [setShowAddNewTask, formik]);
 
   return (
     <form className="modal-container" onSubmit={formik.handleSubmit}>

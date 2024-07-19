@@ -13,13 +13,16 @@ const AddNewColumn = ({ setShowAddColumn }: NewColumnProps) => {
   const { addColumn } = useColumnContext();
   const { boards, activeTab } = useBoardContext();
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-      setShowAddColumn(false);
-    }
-  };
-
   useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        setShowAddColumn(false);
+      }
+    };
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -37,7 +40,7 @@ const AddNewColumn = ({ setShowAddColumn }: NewColumnProps) => {
         formik.values.columns.length > 0 &&
         values.columns[values.columns.length - 1].name !== ""
       ) {
-        values.columns.map((column) => {
+        values.columns.forEach((column) => {
           if (column.name !== "") {
             addColumn(boards[activeTab].id, column.name);
           }
@@ -46,6 +49,8 @@ const AddNewColumn = ({ setShowAddColumn }: NewColumnProps) => {
         setShowAddColumn(false);
       }
     },
+    validateOnChange: false,
+    validateOnBlur: false,
   });
 
   useEffect(() => {

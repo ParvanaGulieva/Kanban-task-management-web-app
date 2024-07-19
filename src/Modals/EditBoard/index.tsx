@@ -7,7 +7,7 @@ import { useFormik } from "formik";
 const EditBoard = () => {
   const modalRef = useRef<HTMLDivElement>(null);
   const [showMessage, setShowMessage] = useState(false);
-  const { boards, activeTab, updateBoard, setShowEditBoard, updateColumn } =
+  const { boards, activeTab, updateBoard, setShowEditBoard } =
     useBoardContext();
 
   const formik = useFormik({
@@ -29,15 +29,20 @@ const EditBoard = () => {
 
       return errors;
     },
+    validateOnChange: false,
+    validateOnBlur: false,
   });
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-      setShowEditBoard(false);
-    }
-  };
-
   useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        setShowEditBoard(false);
+      }
+    };
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);

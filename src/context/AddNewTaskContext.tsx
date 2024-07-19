@@ -93,6 +93,8 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
         formik.resetForm();
       }
     },
+    validateOnChange: false,
+    validateOnBlur: false,
   });
 
   const addTask = (boardId: number, columnId: number, task: Task) => {

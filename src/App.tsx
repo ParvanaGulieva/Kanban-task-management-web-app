@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Board from "./UI/Board";
 import Sidebar from "./components/Sidebar";
@@ -57,8 +57,9 @@ function App() {
 
 export default App;
 
-// add new task modalinda description input
-// tipleri yig hemin fayla
-// validation
 // columns limit
 // ve columns nameler eyni olsa error
+// ilkin olaraq localhost:3000 columnlari gostermir
+// columns grid
+// theme change
+// drag drop

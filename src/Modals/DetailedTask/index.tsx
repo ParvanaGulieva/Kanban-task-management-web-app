@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import SubtaskCheckbox from "../../components/SubtaskCheckbox";
 import { DetailedTaskProps } from "../../types";
 import { useTaskContext } from "../../context/AddNewTaskContext";
-import { useBoardContext } from "../../context/AddNewBoardContext";
 
 const DetailedTask = ({ setShowDetailedTask }: DetailedTaskProps) => {
   const [showMore, setShowMore] = useState(false);
@@ -13,13 +12,16 @@ const DetailedTask = ({ setShowDetailedTask }: DetailedTaskProps) => {
     setShowMore(!showMore);
   };
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-      setShowDetailedTask(false);
-    }
-  };
-
   useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        setShowDetailedTask(false);
+      }
+    };
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);

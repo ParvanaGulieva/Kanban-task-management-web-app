@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SidebarProps } from "../../types";
 import { useBoardContext } from "../../context/AddNewBoardContext";

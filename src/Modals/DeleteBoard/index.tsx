@@ -7,13 +7,16 @@ const DeleteBoard = ({ setShowDelete, handleButton }: HeaderProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const { boards, activeTab } = useBoardContext();
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-      setShowDelete?.(false);
-    }
-  };
-
   useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        setShowDelete?.(false);
+      }
+    };
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
