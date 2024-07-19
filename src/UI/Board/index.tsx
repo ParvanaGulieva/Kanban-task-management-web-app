@@ -8,7 +8,7 @@ import { useTaskContext } from "../../context/AddNewTaskContext";
 import DeleteTask from "../../Modals/DeleteTask";
 import EditTask from "../../Modals/EditTask";
 
-const Board = ({ setShowDetailedTask }: DetailedTaskProps) => {
+const Board = ({ setShowDetailedTask, showSidebar }: DetailedTaskProps) => {
   const [showAddColumn, setShowAddColumn] = useState(false);
   const { activeTab, boards } = useBoardContext();
   const {
@@ -43,7 +43,12 @@ const Board = ({ setShowDetailedTask }: DetailedTaskProps) => {
 
   return (
     <>
-      <div className="board-container">
+      <div
+        className="board-container"
+        style={{
+          width: showSidebar ? "84%" : "100%",
+        }}
+      >
         {boards[activeTab].columns.length === 0 ? (
           <div className="empty">
             <p className="heading-L">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { SidebarProps } from "../../types";
 import { useBoardContext } from "../../context/AddNewBoardContext";
@@ -7,8 +7,11 @@ import light from "../../assets/light.svg";
 import dark from "../../assets/dark.svg";
 import eye2 from "../../assets/eye2.svg";
 
-const Sidebar = ({ toggleTheme }: SidebarProps) => {
-  const [showSidebar, setShowSidebar] = useState(true);
+const Sidebar = ({
+  toggleTheme,
+  showSidebar,
+  setShowSidebar,
+}: SidebarProps) => {
   const {
     boards,
     activeTab,
@@ -115,9 +118,7 @@ const Sidebar = ({ toggleTheme }: SidebarProps) => {
       <div className="open-sidebar" onClick={handleClickShowSidebar}>
         <img src={eye2} alt="close sidebar" />
       </div>
-      {showNewBoardModal && (
-        <AddNewBoard setShowNewBoardModal={setShowNewBoardModal} />
-      )}
+      {showNewBoardModal && <AddNewBoard />}
     </>
   );
 };

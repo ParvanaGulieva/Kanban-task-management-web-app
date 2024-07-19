@@ -14,6 +14,7 @@ function App() {
   const [showAddNewTask, setShowAddNewTask] = useState(false);
   const [showDetailedTask, setShowDetailedTask] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(true);
 
   const toggleTheme = () => {
     setTheme(!theme);
@@ -31,12 +32,19 @@ function App() {
                 showDelete={showDelete}
               />
               <div className="main-section">
-                <Sidebar toggleTheme={toggleTheme} />
+                <Sidebar
+                  toggleTheme={toggleTheme}
+                  showSidebar={showSidebar}
+                  setShowSidebar={setShowSidebar}
+                />
                 <Routes>
                   <Route
                     path="/board/:boardId"
                     element={
-                      <Board setShowDetailedTask={setShowDetailedTask} />
+                      <Board
+                        setShowDetailedTask={setShowDetailedTask}
+                        showSidebar={showSidebar}
+                      />
                     }
                   />
                 </Routes>
@@ -60,6 +68,6 @@ export default App;
 // columns limit
 // ve columns nameler eyni olsa error
 // ilkin olaraq localhost:3000 columnlari gostermir
-// columns grid
 // theme change
 // drag drop
+// task statusu update etdikde ekranda deyismir column yeri

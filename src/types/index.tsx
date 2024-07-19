@@ -37,6 +37,8 @@ export interface DropdownProps {
 
 export interface SidebarProps {
   toggleTheme: () => void;
+  setShowSidebar: (value: boolean) => void;
+  showSidebar: boolean;
 }
 
 export interface HeaderProps {
@@ -63,6 +65,7 @@ export interface NewBoardProps {
 
 export interface DetailedTaskProps {
   setShowDetailedTask: (value: boolean) => void;
+  showSidebar?: boolean;
 }
 
 export interface NewColumnProps {
