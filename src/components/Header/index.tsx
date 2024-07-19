@@ -1,10 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import Button from "../Button";
 import logo from "../../assets/logo-light.svg";
-import { HeaderProps } from "../../types/index";
-import Delete from "../../Modals/DeleteBoard";
-import { useBoardContext } from "../../context/AddNewBoardContext";
-import EditBoard from "../../Modals/EditBoard";
+import { HeaderProps } from "types";
+import Delete from "../../Modals/Delete";
 
 const Header = ({
   setShowAddNewTask,
@@ -14,37 +12,8 @@ const Header = ({
   const [showMore, setShowMore] = useState(false);
 
   const handleClickMore = () => {
-    setShowMore((prevShowMore) => !prevShowMore);
+    setShowMore(!showMore);
   };
-
-  const {
-    boards,
-    activeTab,
-    setActiveTab,
-    deleteBoard,
-    showEditBoard,
-    setShowEditBoard,
-  } = useBoardContext();
-
-  const handleDelete = () => {
-    deleteBoard(boards[activeTab].id);
-    setActiveTab((prev: number) => (prev > 0 ? prev - 1 : 0));
-  };
-
-  const modalRef = useRef<HTMLDivElement>(null);
-
-  const handleClickOutside = (event: MouseEvent) => {
-    if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-      setShowMore(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [setShowMore]);
 
   return (
     <div className="header-container">
@@ -52,8 +21,7 @@ const Header = ({
         <img src={logo} alt="logo" className="logo" />
       </div>
       <div className="main">
-        <p className="heading-XL">{boards[activeTab].name}</p>
-        {/* <p className="heading-XL"> title goes here</p> */}
+        <p className="heading-XL">Platform Launch</p>
         <div className="btn-container">
           <Button
             className="primary-L"
@@ -62,7 +30,7 @@ const Header = ({
           />
           <svg
             onClick={handleClickMore}
-            width="25"
+            width="5"
             height="20"
             viewBox="0 0 5 20"
             fill="none"
@@ -74,10 +42,8 @@ const Header = ({
           </svg>
         </div>
         {showMore && (
-          <div className="more-container" ref={modalRef}>
-            <p className="body-L" onClick={() => setShowEditBoard?.(true)}>
-              Edit board
-            </p>
+          <div className="more-container">
+            <p className="body-L">Edit board</p>
             <p className="body-L delete" onClick={() => setShowDelete?.(true)}>
               Delete board
             </p>
@@ -85,18 +51,7 @@ const Header = ({
         )}
 
         {showDelete && (
-          <Delete
-            setShowDelete={setShowDelete}
-            showDelete={showDelete}
-            handleButton={handleDelete}
-          />
-        )}
-
-        {showEditBoard && (
-          <EditBoard
-            setShowEditBoard={setShowEditBoard}
-            showEditBoard={showEditBoard}
-          />
+          <Delete setShowDelete={setShowDelete} showDelete={showDelete} />
         )}
       </div>
     </div>

@@ -2,19 +2,18 @@ import React, { useRef, useEffect, useState } from "react";
 import Input from "../../components/Input";
 import Dropdown from "../../components/Dropdown";
 import Button from "../../components/Button";
-import TextArea from "../../components/TextArea";
-import { HeaderProps } from "../../types/index";
-import { useTaskContext } from "../../context/AddNewTaskContext";
+import { HeaderProps } from "types";
+import { taskSchema } from "validation/validation";
+import { FormikProps, useFormik } from "formik";
 
 const AddNewTask = ({ setShowAddNewTask }: HeaderProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  const [subtasks, setSubtasks] = useState([]);
   const [showMessage, setShowMessage] = useState(false);
-  const { formik } = useTaskContext();
 
   const handleClickOutside = (event: MouseEvent) => {
     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
       setShowAddNewTask?.(false);
-      formik.resetForm();
     }
   };
 
@@ -24,6 +23,50 @@ const AddNewTask = ({ setShowAddNewTask }: HeaderProps) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [setShowAddNewTask]);
+
+  const handleSubtaskChange = (index: number, value: any) => {
+    const updatedSubtasks = [...formik.values.subtasks];
+    updatedSubtasks[index] = value;
+
+    formik.setValues({
+      ...formik.values,
+      subtasks: updatedSubtasks,
+    });
+  };
+
+  const formik: FormikProps<{
+    title: string;
+    description: string;
+    subtasks: string[];
+    status: string;
+  }> = useFormik({
+    initialValues: {
+      title: "",
+      description: "",
+      subtasks: ["", ""],
+      status: "",
+    },
+    validationSchema: taskSchema,
+    // onSubmit: handleFormSubmit,
+  });
+
+  const handleCreateTask = () => {
+    formik.handleSubmit();
+    if (
+      formik.isValid &&
+      formik.values.description !== "" &&
+      formik.values.title !== "" &&
+      formik.values.subtasks.length > 0
+    ) {
+      formik.resetForm();
+      // console.log(formik.values);
+      setShowAddNewTask?.(false);
+    }
+  };
+
+  useEffect(() => {
+    setShowMessage(formik.values.subtasks.length === 0);
+  }, [formik.values.subtasks.length]);
 
   return (
     <form className="modal-container" onSubmit={formik.handleSubmit}>
@@ -39,7 +82,7 @@ const AddNewTask = ({ setShowAddNewTask }: HeaderProps) => {
           value={formik.values.title}
           errorMessage={formik.errors.title}
         />
-        <TextArea
+        <Input
           label="Description"
           placeholder="e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little."
           type="text"
@@ -55,77 +98,68 @@ const AddNewTask = ({ setShowAddNewTask }: HeaderProps) => {
           {showMessage && (
             <p className="message body-L">At least 1 subtask is required</p>
           )}
-          {formik.values.subtasks.map((subtask, index) => {
-            return (
-              <div className="column" key={index}>
-                <Input
-                  placeholder="e.g. Make coffee "
-                  type="text"
-                  name={`subtasks[${index}].title`}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.subtasks[index].title || ""}
-                  errorMessage={formik.errors.subtasks?.[index]?.title}
+          {formik.values.subtasks.map((subtask, index) => (
+            <div className="column" key={index}>
+              <Input
+                placeholder="e.g. Make coffee "
+                type="text"
+                name={`columns[${index}]`}
+                onChange={(e) => handleSubtaskChange(index, e.target.value)}
+                onBlur={formik.handleBlur}
+                value={formik.values.subtasks[index] || ""}
+                errorMessage={formik.errors.subtasks?.[index]}
+              />
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 15 15"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                onClick={() => {
+                  const updatedSubtasks = [...formik.values.subtasks];
+                  updatedSubtasks.splice(index, 1);
+                  formik.setValues({
+                    ...formik.values,
+                    subtasks: updatedSubtasks,
+                  });
+                }}
+              >
+                <rect
+                  x="12.728"
+                  width="3"
+                  height="18"
+                  transform="rotate(45 12.728 0)"
+                  fill="#828FA3"
                 />
-                <svg
-                  width="15"
-                  height="15"
-                  viewBox="0 0 15 15"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  onClick={() => {
-                    const updatedSubtasks = [...formik.values.subtasks];
-                    updatedSubtasks.splice(index, 1);
-                    formik.setValues({
-                      ...formik.values,
-                      subtasks: updatedSubtasks,
-                    });
-                  }}
-                >
-                  <rect
-                    x="12.728"
-                    width="3"
-                    height="18"
-                    transform="rotate(45 12.728 0)"
-                    fill="#828FA3"
-                  />
-                  <rect
-                    y="2.12132"
-                    width="3"
-                    height="18"
-                    transform="rotate(-45 0 2.12132)"
-                    fill="#828FA3"
-                  />
-                </svg>
-              </div>
-            );
-          })}
+                <rect
+                  y="2.12132"
+                  width="3"
+                  height="18"
+                  transform="rotate(-45 0 2.12132)"
+                  fill="#828FA3"
+                />
+              </svg>
+            </div>
+          ))}
           <Button
             className="secondary"
             text="+ Add New Subtask"
             onClick={(e) => {
+              // console.log(formik.values);
               e.preventDefault();
-              formik.setFieldValue("subtasks", [
-                ...formik.values.subtasks,
-                { id: Date.now(), title: "", completed: false },
-              ]);
+              formik.setValues({
+                ...formik.values,
+                subtasks: [...formik.values.subtasks, ""],
+              });
             }}
           />
         </div>
-        <Dropdown label="Status" placeholder="Select" />
+        <Dropdown label="Status" placeholder="To do" formik={formik} />
         <Button
           className="primary-S"
           text="Create task"
           type="submit"
-          onClick={(e) => {
-            e.preventDefault();
-            formik.handleSubmit();
-            if (formik.isValid) {
-              setShowAddNewTask?.(false);
-            } else {
-              setShowMessage(true);
-            }
-          }}
+          onClick={handleCreateTask}
         />
       </div>
     </form>

@@ -161,6 +161,7 @@ small,
 strike,
 strong,
 sub,
+sup,
 tt,
 var,
 b,
@@ -754,7 +755,7 @@ input:checked + .slider:before {
 .board-container .filled {
   display: grid;
   gap: 2.4rem;
-  grid-template-columns: repeat(auto, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   padding: 2.4rem;
   height: 100%;
 }
@@ -841,8 +842,7 @@ input:-webkit-autofill:active {
   justify-content: center;
   margin-top: 1.6rem;
 }
-.modal-container .modal .add-subtasks,
-.modal-container .modal .columns {
+.modal-container .modal .add-subtasks, .modal-container .modal .columns {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -850,14 +850,10 @@ input:-webkit-autofill:active {
   align-items: flex-start;
   justify-content: center;
 }
-.modal-container .modal .add-subtasks .body-M,
-.modal-container .modal .columns .body-M {
+.modal-container .modal .add-subtasks .body-M, .modal-container .modal .columns .body-M {
   color: #828fa3;
 }
-.modal-container .modal .add-subtasks .subtask,
-.modal-container .modal .add-subtasks .column,
-.modal-container .modal .columns .subtask,
-.modal-container .modal .columns .column {
+.modal-container .modal .add-subtasks .subtask, .modal-container .modal .add-subtasks .column, .modal-container .modal .columns .subtask, .modal-container .modal .columns .column {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -865,16 +861,10 @@ input:-webkit-autofill:active {
   align-items: center;
   justify-content: flex-start;
 }
-.modal-container .modal .add-subtasks .subtask svg,
-.modal-container .modal .add-subtasks .column svg,
-.modal-container .modal .columns .subtask svg,
-.modal-container .modal .columns .column svg {
+.modal-container .modal .add-subtasks .subtask svg, .modal-container .modal .add-subtasks .column svg, .modal-container .modal .columns .subtask svg, .modal-container .modal .columns .column svg {
   cursor: pointer;
 }
-.modal-container .modal .add-subtasks .subtask svg:hover rect,
-.modal-container .modal .add-subtasks .column svg:hover rect,
-.modal-container .modal .columns .subtask svg:hover rect,
-.modal-container .modal .columns .column svg:hover rect {
+.modal-container .modal .add-subtasks .subtask svg:hover rect, .modal-container .modal .add-subtasks .column svg:hover rect, .modal-container .modal .columns .subtask svg:hover rect, .modal-container .modal .columns .column svg:hover rect {
   fill: #ea5555;
 }
 .modal-container .modal .btn-container {
@@ -932,4 +922,4 @@ textarea {
   align-items: center;
   justify-content: flex-start;
   height: calc(100vh - 111px);
-} /*# sourceMappingURL=index.css.map */
+}/*# sourceMappingURL=index.css.map */

@@ -1,33 +1,11 @@
 import React from "react";
+import { TaskCardProps } from "types";
 
-export interface Task {
-  id: number;
-  title: string;
-  description: string;
-  subtasks: { id: number; title: string; completed: boolean }[];
-  status: string;
-}
-
-export interface TaskCardProps {
-  onClick: () => void;
-  name: string;
-  task: Task;
-  key?: number;
-}
-
-const TaskCard = ({ onClick, name, task }: TaskCardProps) => {
-  const completedTasksCount = task.subtasks.filter(
-    (subtask) => subtask.completed
-  ).length;
-
-  const totalTasksCount = task.subtasks.length;
-
+const TaskCard = ({ onClick }: TaskCardProps) => {
   return (
     <div className="task-card-container" onClick={onClick}>
-      <p className="heading-M">{name}</p>
-      <p className="body-M">
-        {completedTasksCount} of {totalTasksCount} substasks
-      </p>
+      <p className="heading-M">Build UI for onboarding flow</p>
+      <p className="body-M">0 of 6 substasks</p>
     </div>
   );
 };

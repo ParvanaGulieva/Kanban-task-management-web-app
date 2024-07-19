@@ -1,22 +1,16 @@
 import React, { useState } from "react";
 import icon from "../../assets/dropdown.svg";
-import { DropdownProps } from "../../types";
-import { useBoardContext } from "../../context/AddNewBoardContext";
-import { useTaskContext } from "../../context/AddNewTaskContext";
+import { DropdownProps } from "types";
 
-const Dropdown = ({ label, placeholder, editFormik }: DropdownProps) => {
+const Dropdown = ({ label, placeholder, formik }: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { boards, activeTab } = useBoardContext();
-  const { showEditTask, formik } = useTaskContext();
-
-  const currentFormik = showEditTask ? editFormik : formik;
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
-  const selectOption = (option: { id: number; name: string }) => {
-    currentFormik?.setFieldValue("status", option.name);
+  const selectOption = (option: string) => {
+    formik.setFieldValue("status", option);
     setIsOpen(false);
   };
 
@@ -27,8 +21,8 @@ const Dropdown = ({ label, placeholder, editFormik }: DropdownProps) => {
         className={isOpen ? "dropdown clicked" : "dropdown"}
         onClick={toggleDropdown}
       >
-        {currentFormik?.values.status ? (
-          <p className="option">{currentFormik.values.status}</p>
+        {formik.values.status ? (
+          <p className="option">{formik.values.status}</p>
         ) : (
           <p className="placeholder">{placeholder}</p>
         )}
@@ -36,11 +30,9 @@ const Dropdown = ({ label, placeholder, editFormik }: DropdownProps) => {
       </div>
       {isOpen && (
         <ul className="dropdown-options">
-          {boards[activeTab].columns.map((option, index) => (
-            <li key={index} onClick={() => selectOption(option)}>
-              {option.name}
-            </li>
-          ))}
+          <li onClick={() => selectOption("To do")}>To do</li>
+          <li onClick={() => selectOption("Doing")}>Doing</li>
+          <li onClick={() => selectOption("Done")}>Done</li>
         </ul>
       )}
     </div>

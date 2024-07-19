@@ -1,12 +1,10 @@
 import { MouseEventHandler } from "react";
 import { FormikProps } from "formik";
 
-export type ButtonTypes = "button" | "submit" | "reset";
-
 export interface ButtonProps {
   className: string;
   text: string;
-  type?: ButtonTypes;
+  type?: "button" | "submit" | "reset";
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
@@ -17,26 +15,26 @@ export interface InputProps {
   label?: string;
   errorMessage?: string;
   name: string;
-  value?: string;
+  value: string;
   onBlur: (event: React.FocusEvent<HTMLInputElement>) => void;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
-
-interface TaskFormValues {
-  title: string;
-  description: string;
-  subtasks: { id: number; title: string; completed: boolean }[];
-  status: string;
 }
 
 export interface DropdownProps {
   label?: string;
   placeholder: string;
-  editFormik?: FormikProps<TaskFormValues>;
+  formik: FormikProps<{
+    title: string;
+    description: string;
+    subtasks: string[];
+    status: string;
+  }>;
 }
 
 export interface SidebarProps {
   toggleTheme: () => void;
+  boards: string[];
+  handleAddNewBoard: (boardName: string) => void;
 }
 
 export interface HeaderProps {
@@ -44,24 +42,24 @@ export interface HeaderProps {
   setShowAddNewTask?: (value: boolean) => void;
   setShowDelete?: (value: boolean) => void;
   showDelete?: boolean;
-  handleButton?: () => void;
-  showEditBoard?: boolean;
-  setShowEditBoard?: (value: boolean) => void;
 }
 
 export interface NewBoardProps {
-  setShowNewBoardModal?: (value: boolean) => void;
-  showEditBoard?: boolean;
-  setShowEditBoard?: (value: boolean) => void;
-  formik?: FormikProps<{
+  // setAddNewBoard?: (value: boolean) => void;
+  setShowNewBoardModal: (value: boolean) => void;
+  formik: FormikProps<{
     name: string;
     columns: string[];
   }>;
-  handleAddNewColumnButton?: (e: React.SyntheticEvent) => void;
+  handleAddNewColumnButton: (e: React.SyntheticEvent) => void;
 }
 
 export interface DetailedTaskProps {
   setShowDetailedTask: (value: boolean) => void;
+}
+
+export interface TaskCardProps {
+  onClick: () => void;
 }
 
 export interface NewColumnProps {

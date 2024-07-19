@@ -1,13 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import SubtaskCheckbox from "../../components/SubtaskCheckbox";
-import { DetailedTaskProps } from "../../types";
-import { useTaskContext } from "../../context/AddNewTaskContext";
-import { useBoardContext } from "../../context/AddNewBoardContext";
+import Dropdown from "../../components/Dropdown";
+import { DetailedTaskProps } from "types";
 
 const DetailedTask = ({ setShowDetailedTask }: DetailedTaskProps) => {
   const [showMore, setShowMore] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
-  const { selectedTask, setShowDeleteTask, setShowEditTask } = useTaskContext();
 
   const handleClickMore = () => {
     setShowMore(!showMore);
@@ -26,18 +24,17 @@ const DetailedTask = ({ setShowDetailedTask }: DetailedTaskProps) => {
     };
   }, [setShowDetailedTask]);
 
-  const completedTasksCount = selectedTask?.subtasks.filter(
-    (subtask) => subtask.completed
-  ).length;
-
   return (
     <div className="modal-container">
       <div className="modal detailed-task" ref={modalRef}>
         <div className="title-container">
-          <p className="heading-L">{selectedTask?.title}</p>
+          <p className="heading-L">
+            Research pricing points of various competitors and trial different
+            business models
+          </p>
           <svg
             onClick={handleClickMore}
-            width="20"
+            width="8"
             height="20"
             viewBox="0 0 5 20"
             fill="none"
@@ -49,44 +46,25 @@ const DetailedTask = ({ setShowDetailedTask }: DetailedTaskProps) => {
           </svg>
           {showMore && (
             <div className="more-container">
-              <p
-                className="body-L"
-                onClick={() => {
-                  setShowEditTask(true);
-                  setShowDetailedTask(false);
-                }}
-              >
-                Edit task
-              </p>
-              <p
-                className="body-L delete"
-                onClick={() => {
-                  setShowDeleteTask(true);
-                  setShowDetailedTask(false);
-                }}
-              >
-                Delete task
-              </p>
+              <p className="body-L">Edit task</p>
+              <p className="body-L delete">Delete task</p>
             </div>
           )}
         </div>
-        <p className="body-L">{selectedTask?.description}</p>
+        <p className="body-L">
+          We know what we're planning to build for version one. Now we need to
+          finalise the first pricing model we'll use. Keep iterating the
+          subtasks until we have a coherent proposition.
+        </p>
         <div className="content">
-          <p className="body-M">
-            Subtasks ({completedTasksCount} of {selectedTask?.subtasks.length})
-          </p>
+          <p className="body-M">Subtasks (2 of 3)</p>
           <div className="subtasks">
-            {selectedTask?.subtasks.map((subtask, id) => (
-              <SubtaskCheckbox key={id} subtask={subtask} />
-            ))}
+            <SubtaskCheckbox />
+            <SubtaskCheckbox />
+            <SubtaskCheckbox />
           </div>
         </div>
-        <div className="option-container">
-          <p className="body-M">Current Status</p>
-          <div className="option">
-            <p className="body-L">{selectedTask?.status}</p>
-          </div>
-        </div>
+        <Dropdown placeholder="Doing" label="Current status" />
       </div>
     </div>
   );

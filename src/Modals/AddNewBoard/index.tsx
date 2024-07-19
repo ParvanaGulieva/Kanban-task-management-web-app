@@ -1,25 +1,28 @@
 import React, { useRef, useEffect, useState } from "react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
-import { useBoardContext } from "../../context/AddNewBoardContext";
-import { useFormik } from "formik";
-import { boardSchema } from "../../validation/validation";
+import { NewBoardProps } from "types";
+import BoardContext from "context/AddNewBoardContext";
+import { useContext } from "react";
+import { FormikProps, useFormik } from "formik";
 
-const AddNewBoard = () => {
+const AddNewBoard = ({
+  setShowNewBoardModal,
+  handleAddNewColumnButton,
+}: NewBoardProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
-  const { setShowNewBoardModal, addBoard } = useBoardContext();
-
-  const formik = useFormik({
-    initialValues: {
-      name: "",
-      columns: ["Todo", "Doing", "Done"],
-    },
-    validationSchema: boardSchema,
-    onSubmit: (values) => {
-      addBoard(values.name, values.columns);
-      setShowNewBoardModal(false);
-    },
-  });
+  const [showMessage, setShowMessage] = useState(false);
+  const {
+    addBoard,
+    formik,
+    handleColumnChange,
+    handleRemoveButton,
+  }: {
+    addBoard: (boardName: string) => void;
+    formik: FormikProps<{ name: string; columns: string[] }>;
+    handleColumnChange: (index: number, value: any) => void;
+    handleRemoveButton: (index: number) => void;
+  } = useContext(BoardContext) as any;
 
   const handleClickOutside = (event: MouseEvent) => {
     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
@@ -34,9 +37,22 @@ const AddNewBoard = () => {
     };
   }, [setShowNewBoardModal]);
 
-  // useEffect(() => {
-  //   setShowMessage(formik.values.columns.length === 0);
-  // }, [formik.values.columns.length]);
+  useEffect(() => {
+    setShowMessage(formik.values.columns.length === 0);
+  }, [formik.values.columns.length]);
+
+  const handleAddBoard = () => {
+    formik.handleSubmit();
+    if (
+      formik.isValid &&
+      formik.values.name !== "" &&
+      formik.values.columns.length > 0
+    ) {
+      addBoard(formik.values.name);
+      formik.resetForm();
+      setShowNewBoardModal(false);
+    }
+  };
 
   return (
     <form className="modal-container" onSubmit={formik.handleSubmit}>
@@ -53,19 +69,17 @@ const AddNewBoard = () => {
           errorMessage={formik.errors.name}
         />
         <div className="columns">
-          {formik.values.columns.length !== 0 && (
-            <p className="body-M">Columns</p>
-          )}
-          {/* {showMessage && (
+          <p className="body-M">Columns</p>
+          {showMessage && (
             <p className="message body-L">At least 1 column is required</p>
-          )} */}
+          )}
           {formik.values.columns.map((column, index) => (
             <div className="column" key={index}>
               <Input
                 placeholder="Column "
                 type="text"
                 name={`columns[${index}]`}
-                onChange={formik.handleChange}
+                onChange={(e) => handleColumnChange(index, e.target.value)}
                 onBlur={formik.handleBlur}
                 value={formik.values.columns[index] || ""}
                 errorMessage={formik.errors.columns?.[index]}
@@ -76,12 +90,7 @@ const AddNewBoard = () => {
                 viewBox="0 0 15 15"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                onClick={() => {
-                  formik.setFieldValue(
-                    "columns",
-                    formik.values.columns.filter((_, i) => i !== index)
-                  );
-                }}
+                onClick={() => handleRemoveButton(index)}
               >
                 <rect
                   x="12.728"
@@ -103,18 +112,14 @@ const AddNewBoard = () => {
           <Button
             className="secondary"
             text="+ Add New Column"
-            onClick={() => {
-              formik.setFieldValue("columns", [...formik.values.columns, ""]);
-            }}
+            onClick={handleAddNewColumnButton}
           />
         </div>
         <Button
           type="submit"
           className="primary-S"
           text="Create New Board"
-          onClick={() => {
-            formik.handleSubmit();
-          }}
+          onClick={handleAddBoard}
         />
       </div>
     </form>
