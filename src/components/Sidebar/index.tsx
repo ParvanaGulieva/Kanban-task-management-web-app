@@ -1,31 +1,26 @@
-import React, { useState } from "react";
-import { useContext } from "react";
-import { Link } from "react-router-dom";
-import { SidebarProps } from "types";
-import BoardContext from "context/AddNewBoardContext";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { SidebarProps } from "../../types";
+import { useBoardContext } from "../../context/AddNewBoardContext";
 import AddNewBoard from "../../Modals/AddNewBoard";
 import light from "../../assets/light.svg";
 import dark from "../../assets/dark.svg";
 import eye2 from "../../assets/eye2.svg";
 
-const Sidebar = ({ toggleTheme, handleAddNewBoard }: SidebarProps) => {
+const Sidebar = ({ toggleTheme }: SidebarProps) => {
   const [showSidebar, setShowSidebar] = useState(true);
-  const [showNewBoardModal, setShowNewBoardModal] = useState(false);
-  const { boards, columns, formik } = useContext(BoardContext) as {
-    boards: string[];
-    columns: string[];
-  };
+  const {
+    boards,
+    activeTab,
+    setActiveTab,
+    setShowNewBoardModal,
+    showNewBoardModal,
+  } = useBoardContext();
+
+  const navigate = useNavigate();
 
   const handleClickShowSidebar = () => {
     setShowSidebar(!showSidebar);
-  };
-
-  const handleAddNewColumnButton = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    formik.setValues({
-      ...formik.values,
-      columns: [...formik.values.columns, ""],
-    });
   };
 
   return (
@@ -34,27 +29,35 @@ const Sidebar = ({ toggleTheme, handleAddNewBoard }: SidebarProps) => {
         <div className="sidebar-container">
           <div className="tabs">
             <p className="heading-S">ALL BOARDS ({boards.length})</p>
-            {boards.map((board: string, id: number) => (
-              <div className="tab" key={id}>
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+            {boards.map((board, id) => {
+              // console.log(board.name);
+              return (
+                <div
+                  className={`tab ${activeTab === id ? "active" : ""}`}
+                  key={id}
+                  onClick={() => {
+                    navigate(`/board/${board.id}`);
+                    setActiveTab(id);
+                  }}
                 >
-                  <path
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M0.846133 0.846133C0.304363 1.3879 0 2.12271 0 2.88889V13.1111C0 13.8773 0.304363 14.6121 0.846133 15.1538C1.3879 15.6957 2.12271 16 2.88889 16H13.1111C13.8773 16 14.6121 15.6957 15.1538 15.1538C15.6957 14.6121 16 13.8773 16 13.1111V2.88889C16 2.12271 15.6957 1.3879 15.1538 0.846133C14.6121 0.304363 13.8773 0 13.1111 0H2.88889C2.12271 0 1.3879 0.304363 0.846133 0.846133ZM1.33333 13.1111V8.44448H9.77781V14.6667H2.88889C2.03022 14.6667 1.33333 13.9698 1.33333 13.1111ZM9.77781 7.11111V1.33333H2.88889C2.47633 1.33333 2.08067 1.49723 1.78895 1.78895C1.49723 2.08067 1.33333 2.47633 1.33333 2.88889V7.11111H9.77781ZM11.1111 5.77778H14.6667V10.2222H11.1111V5.77778ZM14.6667 11.5555H11.1111V14.6667H13.1111C13.5236 14.6667 13.9194 14.5028 14.2111 14.2111C14.5028 13.9194 14.6667 13.5236 14.6667 13.1111V11.5555ZM14.6667 2.88889V4.44445H11.1111V1.33333H13.1111C13.5236 1.33333 13.9194 1.49723 14.2111 1.78895C14.5028 2.08067 14.6667 2.47633 14.6667 2.88889Z"
-                    fill="#828FA3"
-                  />
-                </svg>
-                {/* <Link to="/"> */}
-                <p className="heading-M">{board}</p>
-                {/* </Link> */}
-              </div>
-            ))}
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M0.846133 0.846133C0.304363 1.3879 0 2.12271 0 2.88889V13.1111C0 13.8773 0.304363 14.6121 0.846133 15.1538C1.3879 15.6957 2.12271 16 2.88889 16H13.1111C13.8773 16 14.6121 15.6957 15.1538 15.1538C15.6957 14.6121 16 13.8773 16 13.1111V2.88889C16 2.12271 15.6957 1.3879 15.1538 0.846133C14.6121 0.304363 13.8773 0 13.1111 0H2.88889C2.12271 0 1.3879 0.304363 0.846133 0.846133ZM1.33333 13.1111V8.44448H9.77781V14.6667H2.88889C2.03022 14.6667 1.33333 13.9698 1.33333 13.1111ZM9.77781 7.11111V1.33333H2.88889C2.47633 1.33333 2.08067 1.49723 1.78895 1.78895C1.49723 2.08067 1.33333 2.47633 1.33333 2.88889V7.11111H9.77781ZM11.1111 5.77778H14.6667V10.2222H11.1111V5.77778ZM14.6667 11.5555H11.1111V14.6667H13.1111C13.5236 14.6667 13.9194 14.5028 14.2111 14.2111C14.5028 13.9194 14.6667 13.5236 14.6667 13.1111V11.5555ZM14.6667 2.88889V4.44445H11.1111V1.33333H13.1111C13.5236 1.33333 13.9194 1.49723 14.2111 1.78895C14.5028 2.08067 14.6667 2.47633 14.6667 2.88889Z"
+                      fill="#828FA3"
+                    />
+                  </svg>
+                  <p className="heading-M">{board.name}</p>
+                </div>
+              );
+            })}
 
             <div
               className="tab createNew"
@@ -113,10 +116,7 @@ const Sidebar = ({ toggleTheme, handleAddNewBoard }: SidebarProps) => {
         <img src={eye2} alt="close sidebar" />
       </div>
       {showNewBoardModal && (
-        <AddNewBoard
-          setShowNewBoardModal={setShowNewBoardModal}
-          handleAddNewColumnButton={handleAddNewColumnButton}
-        />
+        <AddNewBoard setShowNewBoardModal={setShowNewBoardModal} />
       )}
     </>
   );
