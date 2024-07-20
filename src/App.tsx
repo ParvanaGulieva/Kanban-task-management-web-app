@@ -30,6 +30,7 @@ function App() {
                 setShowAddNewTask={setShowAddNewTask}
                 setShowDelete={setShowDelete}
                 showDelete={showDelete}
+                theme={theme}
               />
               <div className="main-section">
                 <Sidebar
@@ -70,4 +71,13 @@ export default App;
 // ilkin olaraq localhost:3000 columnlari gostermir
 // theme change
 // drag drop
-// task statusu update etdikde ekranda deyismir column yeri
+// icon errorlari ve diger errorlar
+// sidebar icon size
+// shadows
+// add new taskda bir inputu yazib save edende popup baglanir
+// input yazdiqdan sonra icindeki text color
+// check forwardRef
+// addnewtaskcontext formik error
+// add new column                 errorMessage={formik.errors.columns?.[index]?.name}
+// add new task                   errorMessage={formik.errors.subtasks?.[index]?.title}
+// edit task                   errorMessage={formik.errors.subtasks?.[index]?.title}

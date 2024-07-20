@@ -50,6 +50,7 @@ export interface HeaderProps {
   showEditBoard?: boolean;
   setShowEditBoard?: (value: boolean) => void;
   handleDelete?: () => void;
+  theme?: boolean;
 }
 
 export interface NewBoardProps {

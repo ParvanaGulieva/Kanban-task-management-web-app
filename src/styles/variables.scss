@@ -6,35 +6,66 @@ $PlusJakartaSans: "Plus Jakarta Sans", sans-serif;
 
 // COLORS
 
-// Light mode
+// // Light mode
+// $primary: #635fc7;
+// $primary-hover: #a8a4ff;
+// $secondary: #efeff9;
+// $secondary-hover: #d8d7f1;
+// $text-color: #000112;
+// $medium-grey: #828fa3;
+// $error: #ea5555;
+// $error-hover: #ff9898;
+// $background: #f4f7fd;
+// $surface: #ffffff;
+// $white: #ffffff;
+// $stroke: #e4ebfa;
 
-$primary: #635fc7;
-$primary-hover: #a8a4ff;
-$secondary: #efeff9;
-$secondary-hover: #d8d7f1;
-$text-color: #000112;
-$medium-grey: #828fa3;
-$error: #ea5555;
-$error-hover: #ff9898;
-$background: #f4f7fd;
-$surface: #ffffff;
-$white: #ffffff;
-$stroke: #e4ebfa;
+// // Dark mode
+// .dark {
+//   $primary: #635fc7;
+//   $primary-hover: #a8a4ff;
+//   $secondary: #ffffff;
+//   $secondary-hover: #ffffff;
+//   $text-color: #ffffff;
+//   $medium-grey: #828fa3;
+//   $error: #ea5555;
+//   $error-hover: #ff9898;
+//   $background: #20212c;
+//   $surface: #2b2c37;
+//   $white: #ffffff;
+//   $stroke: #2b2c37;
+// }
+
+// Light mode
+:root {
+  --primary: #635fc7;
+  --primary-hover: #a8a4ff;
+  --secondary: #efeff9;
+  --secondary-hover: #d8d7f1;
+  --text-color: #000112;
+  --medium-grey: #828fa3;
+  --error: #ea5555;
+  --error-hover: #ff9898;
+  --background: #f4f7fd;
+  --surface: #ffffff;
+  --white: #ffffff;
+  --stroke: #e4ebfa;
+}
 
 // Dark mode
 .dark {
-  $primary: #635fc7;
-  $primary-hover: #a8a4ff;
-  $secondary: #ffffff;
-  $secondary-hover: #ffffff;
-  $text-color: #ffffff;
-  $medium-grey: #828fa3;
-  $error: #ea5555;
-  $error-hover: #ff9898;
-  $background: #20212c;
-  $surface: #2b2c37;
-  $white: #ffffff;
-  $stroke: #2b2c37;
+  --primary: #635fc7;
+  --primary-hover: #a8a4ff;
+  --secondary: #23242f;
+  --secondary-hover: #363654;
+  --text-color: #ffffff;
+  --medium-grey: #828fa3;
+  --error: #ea5555;
+  --error-hover: #ff9898;
+  --background: #20212c;
+  --surface: #2b2c37;
+  --white: #ffffff;
+  --stroke: #3e3f4e;
 }
 
 // Shadow
@@ -45,63 +76,63 @@ $transition-main: all 300ms;
 
 // Font styles
 .heading-XL {
-  @include text-style($text-color, 2.4rem, 3rem, 700);
+  @include text-style(var(--text-color), 2.4rem, 3rem, 700);
 }
 
 .heading-L {
-  @include text-style($text-color, 1.8rem, 2.4rem, 700);
+  @include text-style(var(--text-color), 1.8rem, 2.4rem, 700);
 }
 
 .heading-M {
-  @include text-style($text-color, 1.5rem, 2rem, 600);
+  @include text-style(var(--text-color), 1.5rem, 2rem, 600);
 }
 
 .heading-S {
-  @include text-style($medium-grey, 1.2rem, 1.5rem, 700);
+  @include text-style(var(--medium-grey), 1.2rem, 1.5rem, 700);
   letter-spacing: 0.24rem;
 }
 
 .body-L {
-  @include text-style($text-color, 1.3rem, 2.3rem, 500);
+  @include text-style(var(--text-color), 1.3rem, 2.3rem, 500);
 }
 
 .body-M {
-  @include text-style($text-color, 1.2rem, 1.5rem, 600);
+  @include text-style(var(--text-color), 1.2rem, 1.5rem, 600);
 }
 
 // BUTTONS
 .primary-L {
-  @include buttton-style($primary, 1.5rem, 700, $white, 2.4rem);
+  @include buttton-style(var(--primary), 1.5rem, 700, var(--white), 2.4rem);
   padding: 1.4rem 4rem;
   &:hover {
-    background-color: $primary-hover;
+    background-color: var(--primary-hover);
   }
 }
 
 .primary-S {
-  @include buttton-style($primary, 1.3rem, 700, $white, 2rem);
+  @include buttton-style(var(--primary), 1.3rem, 700, var(--white), 2rem);
   padding: 1.2rem 4rem;
   width: 100%;
   &:hover {
-    background-color: $primary-hover;
+    background-color: var(--primary-hover);
   }
 }
 
 .secondary {
-  @include buttton-style($secondary, 1.3rem, 700, $primary, 2rem);
+  @include buttton-style(var(--secondary), 1.3rem, 700, var(--primary), 2rem);
   padding: 1.2rem 4rem;
   width: 100%;
   &:hover {
-    background-color: $secondary-hover;
+    background-color: var(--secondary-hover);
   }
 }
 
 .error {
-  @include buttton-style($error, 1.3rem, 700, $white, 2rem);
+  @include buttton-style(var(--error), 1.3rem, 700, var(--white), 2rem);
   padding: 1.2rem 4rem;
   width: 100%;
 
   &:hover {
-    background-color: $error-hover;
+    background-color: var(--error-hover);
   }
 }

@@ -296,6 +296,7 @@ html {
   border-radius: 0.4rem;
   font-family: "Plus Jakarta Sans", sans-serif;
   width: 100%;
+  background-color: var(--surface) !important;
 }
 .form input input:-webkit-autofill,
 .form input input:-webkit-autofill:hover,
@@ -306,7 +307,7 @@ html {
 .form input:focus {
   outline: none;
   border-color: #635fc7;
-  color: #000112;
+  color: var(--text-color);
 }
 .form .input-error {
   border-color: #ea5555;

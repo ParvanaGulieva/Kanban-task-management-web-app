@@ -135,7 +135,7 @@ table {
 
 body {
   font-family: $PlusJakartaSans;
-  background-color: $background;
+  background-color: var(--background);
   position: relative;
 }
 
@@ -149,7 +149,7 @@ html {
   height: fit-content;
 
   & .label {
-    color: $medium-grey;
+    color: var(--medium-grey);
     margin-bottom: 0.8rem;
   }
   & .text-area {
@@ -159,23 +159,24 @@ html {
   & textarea {
     @include input-style();
     width: 100%;
+    background-color: var(--surface);
 
     &:focus {
       outline: none;
-      border-color: $primary;
-      color: $text-color;
+      border-color: var(--primary);
+      color: var(--text-color);
     }
   }
   & .input-error {
-    border-color: $error;
+    border-color: var(--error);
   }
 }
 .message {
-  color: $error !important;
+  color: var(--error) !important;
 }
 
 ::placeholder {
-  @include text-style($text-color, 1.3rem, 2.3rem, 500);
+  @include text-style(var(--text-color), 1.3rem, 2.3rem, 500);
   opacity: 0.25;
 }
 
@@ -184,7 +185,7 @@ html {
   width: 100%;
 
   & label {
-    color: $medium-grey;
+    color: var(--medium-grey);
   }
 }
 
@@ -193,26 +194,26 @@ html {
   cursor: pointer;
   @include dropdown-style();
   @include flex-style(row, auto, center, space-between);
-  @include text-style($text-color, 1.3rem, 2.3rem, 500);
+  @include text-style(var(--text-color), 1.3rem, 2.3rem, 500);
   &.clicked {
-    border-color: $primary;
+    border-color: var(--primary);
   }
 }
 
 .dropdown-options {
   width: 100%;
-  background-color: $secondary;
+  background-color: var(--secondary);
   border-radius: 0.4rem;
   margin-top: 0.8rem;
   padding: 0.8rem;
   & li {
-    @include text-style($medium-grey, 1.3rem, 2.3rem, 500);
+    @include text-style(var(--medium-grey), 1.3rem, 2.3rem, 500);
     padding: 0.8rem 1.6rem;
     border-radius: 0.4rem;
     &:hover {
-      color: $text-color;
+      color: var(--text-color);
       transition: $transition-main;
-      background-color: $secondary-hover;
+      background-color: var(--secondary-hover);
       cursor: pointer;
     }
   }
@@ -224,9 +225,9 @@ html {
   padding-left: 4rem;
   width: 100%;
   border-radius: 0.4rem;
-  background-color: $secondary;
+  background-color: var(--secondary);
   &:hover {
-    background-color: $secondary-hover;
+    background-color: var(--secondary-hover);
     transition: $transition-main;
     cursor: pointer;
   }
@@ -242,7 +243,7 @@ html {
   user-select: none;
 
   & p {
-    color: $text-color !important;
+    color: var(--text-color) !important;
   }
 
   & input {
@@ -255,10 +256,10 @@ html {
 
   &:checked ~ p {
     text-decoration: line-through;
-    color: $medium-grey;
+    color: var(--medium-grey);
   }
   & input:checked + .checkmark + p {
-    color: $medium-grey !important;
+    color: var(--medium-grey) !important;
     text-decoration: line-through;
   }
 }
@@ -271,11 +272,11 @@ html {
   width: 1.6rem;
   border-radius: 0.2rem;
   border: 1px solid rgba(50, 59, 72, 0.25);
-  background-color: $surface;
+  background-color: var(--surface);
 }
 
 .subtask-container input:checked ~ .checkmark {
-  background-color: $primary;
+  background-color: var(--primary);
   border-color: transparent;
 }
 
@@ -294,7 +295,7 @@ html {
   top: 0.1rem;
   width: 0.5rem;
   height: 1rem;
-  border: solid $surface;
+  border: solid var(--surface);
   border-width: 0 2px 2px 0;
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
@@ -304,8 +305,8 @@ html {
 .header-container {
   width: 100%;
   height: min-content;
-  border: 1px solid $stroke;
-  background-color: $surface;
+  border: 1px solid var(--stroke);
+  background-color: var(--surface);
   @include flex-style(row, 0, center, flex-start);
 
   & .btn-container {
@@ -320,7 +321,7 @@ html {
     position: absolute;
     z-index: 1;
     padding: 1.6rem;
-    background: $surface;
+    background: var(--surface);
     border-radius: 0.8rem;
     width: 19.2rem;
     top: 9rem;
@@ -331,13 +332,13 @@ html {
       cursor: pointer;
     }
     & .delete {
-      color: $error;
+      color: var(--error);
       margin-top: 1.6rem;
     }
   }
 
   & .logo-container {
-    border-right: 1px solid $stroke;
+    border-right: 1px solid var(--stroke);
     padding: 4.2rem 8rem 4.2rem 3.2rem;
     width: 16%;
   }
@@ -352,10 +353,10 @@ html {
 
 .sidebar-container {
   z-index: 10;
-  border-right: 1px solid $stroke;
+  border-right: 1px solid var(--stroke);
   width: 16%;
   height: 100%;
-  background-color: $surface;
+  background-color: var(--surface);
 
   @include flex-style(column, 0, center, space-between);
   & .btn-container {
@@ -376,17 +377,17 @@ html {
       border-bottom-right-radius: 10rem;
       @include flex-style(row, 1.6rem, center, flex-start);
       .heading-M {
-        color: $medium-grey;
+        color: var(--medium-grey);
       }
 
       &:hover {
-        background-color: $secondary-hover;
+        background-color: var(--secondary-hover);
         & p {
-          color: $primary !important;
+          color: var(--primary) !important;
         }
 
         & svg path {
-          fill: $primary;
+          fill: var(--primary);
         }
       }
     }
@@ -397,24 +398,24 @@ html {
     }
 
     & .active {
-      background-color: $primary;
+      background-color: var(--primary);
       pointer-events: none;
 
       & p {
-        color: $white !important;
+        color: var(--white) !important;
       }
 
       & svg path {
-        fill: $white;
+        fill: var(--white);
       }
     }
     & .createNew {
       p {
-        color: $primary !important;
+        color: var(--primary) !important;
       }
 
       svg path {
-        fill: $primary;
+        fill: var(--primary);
       }
     }
   }
@@ -423,7 +424,7 @@ html {
     width: 100%;
     padding: 1.6rem 2rem;
     border-radius: 0.6rem;
-    background-color: $background;
+    background-color: var(--background);
     @include flex-style(row, 2.4rem, center, space-between);
   }
 
@@ -432,16 +433,16 @@ html {
     @include flex-style(row, 1.6rem, center, flex-start);
     cursor: pointer;
     p {
-      color: $medium-grey;
+      color: var(--medium-grey);
     }
 
     &:hover {
       transition: $transition-main;
       p {
-        color: $primary;
+        color: var(--primary);
       }
       svg path {
-        fill: $primary;
+        fill: var(--primary);
       }
     }
   }
@@ -451,7 +452,7 @@ html {
   position: absolute;
   left: 0;
   bottom: 1rem;
-  background-color: $primary;
+  background-color: var(--primary);
   padding: 1.8rem;
   border-top-right-radius: 10rem;
   border-bottom-right-radius: 10rem;
@@ -482,11 +483,11 @@ html {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: $secondary-hover;
+  background-color: var(--secondary-hover);
   -webkit-transition: 0.4s;
   transition: 0.4s;
   &:hover {
-    background-color: $primary-hover;
+    background-color: var(--primary-hover);
   }
 }
 
@@ -498,17 +499,17 @@ html {
   left: 0.55rem;
   bottom: 0.4rem;
   right: 0.6rem;
-  background-color: $white;
+  background-color: var(--white);
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
 
 input:checked + .slider {
-  background-color: $primary;
+  background-color: var(--primary);
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px $secondary-hover;
+  box-shadow: 0 0 1px var(--secondary-hover);
 }
 
 input:checked + .slider:before {
@@ -529,12 +530,13 @@ input:checked + .slider:before {
 .board-container {
   height: 100%;
   width: 84%;
+  background-color: var(--background);
   & .empty {
     @include flex-style(column, 2.4rem, center, center);
     height: 100%;
     width: 100%;
     & .heading-L {
-      color: $medium-grey;
+      color: var(--medium-grey);
     }
   }
 
@@ -543,19 +545,19 @@ input:checked + .slider:before {
     & .new-column {
       height: 100%;
       border-radius: 0.6rem;
-      background-color: $secondary;
+      background-color: var(--secondary);
       transition: $transition-main;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       & p {
-        color: $medium-grey;
+        color: var(--medium-grey);
         text-align: center;
       }
       &:hover {
         & p {
-          color: $primary;
+          color: var(--primary);
         }
       }
     }
@@ -568,7 +570,7 @@ input:checked + .slider:before {
       width: 1.5rem;
       height: 1.5rem;
       border-radius: 100%;
-      background-color: $primary;
+      background-color: var(--primary);
     }
   }
 
@@ -578,7 +580,7 @@ input:checked + .slider:before {
       width: 1.5rem;
       height: 1.5rem;
       border-radius: 100%;
-      background-color: $primary;
+      background-color: var(--primary);
     }
 
     &.doing .round {
@@ -601,13 +603,13 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 30px $surface inset !important;
+  -webkit-box-shadow: 0 0 0 30px var(--surface) inset !important;
 }
 
 .task-card-container {
   width: 100%;
   box-shadow: $task-shadow;
-  background-color: $surface;
+  background-color: var(--surface);
   border-radius: 0.8rem;
   @include flex-style(column, 0.8rem, flex-start, center);
   padding: 2.4rem 1.6rem;
@@ -616,12 +618,12 @@ input:-webkit-autofill:active {
 
   &:hover {
     .heading-M {
-      color: $primary;
+      color: var(--primary);
     }
   }
 
   & .body-M {
-    color: $medium-grey;
+    color: var(--medium-grey);
   }
 }
 
@@ -639,17 +641,17 @@ input:-webkit-autofill:active {
   & .modal {
     @include flex-style(column, 2.4rem, flex-start, center);
     border-radius: 0.6rem;
-    background-color: $surface;
+    background-color: var(--surface);
     width: 48rem;
     box-shadow: $task-shadow;
     padding: 3.2rem;
     & .body-L {
-      color: $medium-grey;
+      color: var(--medium-grey);
     }
     & .content {
       width: 100%;
       & .body-M {
-        color: $medium-grey;
+        color: var(--medium-grey);
       }
     }
 
@@ -664,7 +666,7 @@ input:-webkit-autofill:active {
       @include flex-style(column, 1.2rem, flex-start, center);
 
       & .body-M {
-        color: $medium-grey;
+        color: var(--medium-grey);
       }
 
       & .subtask,
@@ -676,7 +678,7 @@ input:-webkit-autofill:active {
           cursor: pointer;
 
           &:hover rect {
-            fill: $error;
+            fill: var(--error);
           }
         }
       }
@@ -699,7 +701,7 @@ input:-webkit-autofill:active {
       & .more-container {
         position: absolute;
         padding: 1.6rem;
-        background: $background;
+        background: var(--background);
         border-radius: 0.8rem;
         width: 15rem;
         top: 5rem;
@@ -711,7 +713,7 @@ input:-webkit-autofill:active {
           cursor: pointer;
         }
         & .delete {
-          color: $error;
+          color: var(--error);
           margin-top: 1.6rem;
         }
       }
@@ -728,7 +730,7 @@ textarea {
 }
 
 .delete-title {
-  color: $error !important;
+  color: var(--error) !important;
 }
 
 .main-section {
@@ -750,7 +752,7 @@ textarea {
     border-radius: 0.4rem;
 
     & p {
-      color: $text-color !important;
+      color: var(--text-color) !important;
       opacity: 0.5;
     }
   }

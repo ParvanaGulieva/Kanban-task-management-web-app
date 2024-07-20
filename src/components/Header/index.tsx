@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Button from "../Button";
-import logo from "../../assets/logo-light.svg";
+import logoLight from "../../assets/logo-light.svg";
+import logoDark from "../../assets/logo-dark.svg";
 import { HeaderProps } from "../../types/index";
 import Delete from "../../Modals/DeleteBoard";
 import { useBoardContext } from "../../context/AddNewBoardContext";
@@ -10,6 +11,7 @@ const Header = ({
   setShowAddNewTask,
   setShowDelete,
   showDelete,
+  theme,
 }: HeaderProps) => {
   const [showMore, setShowMore] = useState(false);
 
@@ -49,7 +51,7 @@ const Header = ({
   return (
     <div className="header-container">
       <div className="logo-container">
-        <img src={logo} alt="logo" className="logo" />
+        <img src={theme ? logoLight : logoDark} alt="logo" className="logo" />
       </div>
       <div className="main">
         <p className="heading-XL">{boards[activeTab].name}</p>
@@ -92,12 +94,7 @@ const Header = ({
           />
         )}
 
-        {showEditBoard && (
-          <EditBoard
-            setShowEditBoard={setShowEditBoard}
-            showEditBoard={showEditBoard}
-          />
-        )}
+        {showEditBoard && <EditBoard />}
       </div>
     </div>
   );

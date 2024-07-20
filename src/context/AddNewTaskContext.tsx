@@ -118,28 +118,46 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
 
   const updateTask = (
     boardId: number,
-    columnId: number,
+    currentColumnId: number,
     taskId: number,
-    task: Task
+    updatedTask: Task
   ) => {
     setBoards((prevBoards) => {
-      const updatedBoards = prevBoards.map((board) =>
-        board.id === boardId
-          ? {
-              ...board,
-              columns: board.columns.map((column) =>
-                column.id === columnId
-                  ? {
-                      ...column,
-                      tasks: column.tasks.map((t) =>
-                        t.id === taskId ? task : t
-                      ),
-                    }
-                  : column
-              ),
-            }
-          : board
-      );
+      const updatedBoards = prevBoards.map((board) => {
+        if (board.id !== boardId) return board;
+
+        const currentColumn = board.columns.find(
+          (column) => column.id === currentColumnId
+        );
+        if (!currentColumn) return board;
+
+        const updatedCurrentColumn = {
+          ...currentColumn,
+          tasks: currentColumn.tasks.filter((task) => task.id !== taskId),
+        };
+
+        const newColumn = board.columns.find(
+          (column) => column.name === updatedTask.status
+        );
+        if (!newColumn) return board;
+
+        const updatedNewColumn = {
+          ...newColumn,
+          tasks: [...newColumn.tasks, updatedTask],
+        };
+
+        const updatedColumns = board.columns.map((column) => {
+          if (column.id === currentColumnId) return updatedCurrentColumn;
+          if (column.id === newColumn.id) return updatedNewColumn;
+          return column;
+        });
+
+        return {
+          ...board,
+          columns: updatedColumns,
+        };
+      });
+
       localStorage.setItem("boards", JSON.stringify(updatedBoards));
       return updatedBoards;
     });
