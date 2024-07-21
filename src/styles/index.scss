@@ -160,6 +160,7 @@ html {
     @include input-style();
     width: 100%;
     background-color: var(--surface);
+    color: var(--text-color);
 
     &:focus {
       outline: none;
@@ -326,7 +327,7 @@ html {
     width: 19.2rem;
     top: 9rem;
     right: 2.4rem;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    box-shadow: rgb(0 0 0 / 10%) 0px 8px 24px;
 
     & p {
       cursor: pointer;
@@ -384,6 +385,10 @@ html {
         background-color: var(--secondary-hover);
         & p {
           color: var(--primary) !important;
+        }
+
+        & svg {
+          width: 1.6rem !important;
         }
 
         & svg path {
@@ -608,7 +613,7 @@ input:-webkit-autofill:active {
 
 .task-card-container {
   width: 100%;
-  box-shadow: $task-shadow;
+  box-shadow: rgb(0 0 0 / 10%) 0px 8px 24px;
   background-color: var(--surface);
   border-radius: 0.8rem;
   @include flex-style(column, 0.8rem, flex-start, center);
@@ -643,7 +648,7 @@ input:-webkit-autofill:active {
     border-radius: 0.6rem;
     background-color: var(--surface);
     width: 48rem;
-    box-shadow: $task-shadow;
+    box-shadow: rgb(0 0 0 / 10%) 0px 8px 24px;
     padding: 3.2rem;
     & .body-L {
       color: var(--medium-grey);
@@ -706,7 +711,7 @@ input:-webkit-autofill:active {
         width: 15rem;
         top: 5rem;
         right: -20%;
-        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        box-shadow: rgb(0 0 0 / 10%) 0px 8px 24px;
         z-index: 1;
 
         & p {

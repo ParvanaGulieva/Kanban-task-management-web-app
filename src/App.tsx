@@ -69,7 +69,6 @@ export default App;
 // columns limit
 // ve columns nameler eyni olsa error
 // ilkin olaraq localhost:3000 columnlari gostermir
-// theme change
 // drag drop
 // icon errorlari ve diger errorlar
 // sidebar icon size
