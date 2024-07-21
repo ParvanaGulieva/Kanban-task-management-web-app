@@ -29,10 +29,23 @@ interface TaskFormValues {
   status: string;
 }
 
+interface Subtask {
+  id: number;
+  title: string;
+  completed: boolean;
+}
+
 export interface DropdownProps {
   label?: string;
   placeholder: string;
   editFormik?: FormikProps<TaskFormValues>;
+  formik?: FormikProps<{
+    title: string;
+    description: string;
+    subtasks: Subtask[];
+    status: string;
+    columnId: number | null;
+  }>;
 }
 
 export interface SidebarProps {

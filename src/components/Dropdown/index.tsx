@@ -4,10 +4,15 @@ import { DropdownProps } from "../../types";
 import { useBoardContext } from "../../context/AddNewBoardContext";
 import { useTaskContext } from "../../context/AddNewTaskContext";
 
-const Dropdown = ({ label, placeholder, editFormik }: DropdownProps) => {
+const Dropdown = ({
+  label,
+  placeholder,
+  editFormik,
+  formik,
+}: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const { boards, activeTab } = useBoardContext();
-  const { showEditTask, formik } = useTaskContext();
+  const { showEditTask } = useTaskContext();
 
   const currentFormik = showEditTask ? editFormik : formik;
 

@@ -1,15 +1,74 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import Input from "../../components/Input";
 import Dropdown from "../../components/Dropdown";
 import Button from "../../components/Button";
 import TextArea from "../../components/TextArea";
 import { HeaderProps } from "../../types/index";
 import { useTaskContext } from "../../context/AddNewTaskContext";
+import { useBoardContext } from "context/AddNewBoardContext";
+import { useFormik } from "formik";
+import { useTaskSchema } from "validation/validation";
 
 const AddNewTask = ({ setShowAddNewTask }: HeaderProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
-  const [showMessage, setShowMessage] = useState(false);
-  const { formik } = useTaskContext();
+  const { addTask } = useTaskContext();
+  const { boards, activeTab } = useBoardContext();
+  const taskSchema = useTaskSchema();
+
+  const formik = useFormik({
+    initialValues: {
+      title: "",
+      description: "",
+      subtasks: [{ id: Date.now(), title: "", completed: false }],
+      status: "",
+    },
+    validationSchema: taskSchema,
+    onSubmit: (values) => {
+      const column = boards[activeTab].columns.find(
+        (column) => column.name === values.status
+      );
+
+      const columnId = column!.id;
+      if (
+        formik.isValid &&
+        formik.values.title !== "" &&
+        formik.values.description !== "" &&
+        formik.values.status !== ""
+      ) {
+        addTask(boards[activeTab].id, columnId, {
+          id: Date.now(),
+          title: values.title,
+          description: values.description,
+          subtasks: values.subtasks,
+          status: values.status,
+        });
+        formik.resetForm();
+        if (setShowAddNewTask) {
+          setShowAddNewTask(false);
+        }
+      }
+    },
+    validate: (values) => {
+      const errors: any = {};
+      if (!values.title) {
+        errors.title = "Required";
+      }
+      if (!values.description) {
+        errors.description = "Required";
+      }
+      if (!values.status) {
+        errors.status = "Required";
+      }
+      if (values.subtasks.length === 0) {
+        errors.subtasks = "At least one subtask is required";
+      }
+      return errors;
+    },
+    validateOnChange: false,
+    validateOnBlur: false,
+  });
+
+  console.log(formik.errors.subtasks);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -55,9 +114,10 @@ const AddNewTask = ({ setShowAddNewTask }: HeaderProps) => {
         />
         <div className="add-subtasks">
           <p className="body-M">Subtasks</p>
-          {showMessage && (
-            <p className="message body-L">At least 1 subtask is required</p>
-          )}
+          {formik.values.subtasks.length === 0 &&
+            typeof formik.errors.subtasks === "string" && (
+              <p className="message body-L">{formik.errors.subtasks}</p>
+            )}
           {formik.values.subtasks.map((subtask, index) => {
             return (
               <div className="column" key={index}>
@@ -115,7 +175,7 @@ const AddNewTask = ({ setShowAddNewTask }: HeaderProps) => {
             }}
           />
         </div>
-        <Dropdown label="Status" placeholder="Select" />
+        <Dropdown label="Status" placeholder="Select" formik={formik} />
         <Button
           className="primary-S"
           text="Create task"
@@ -123,11 +183,9 @@ const AddNewTask = ({ setShowAddNewTask }: HeaderProps) => {
           onClick={(e) => {
             e.preventDefault();
             formik.handleSubmit();
-            if (formik.isValid) {
-              setShowAddNewTask?.(false);
-            } else {
-              setShowMessage(true);
-            }
+            // if (formik.values.subtasks.length === 0) {
+            //   setShowMessage(true);
+            // }
           }}
         />
       </div>

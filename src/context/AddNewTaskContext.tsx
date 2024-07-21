@@ -1,7 +1,5 @@
 import React, { ReactNode, createContext, useContext, useState } from "react";
 import { useBoardContext } from "./AddNewBoardContext";
-import { FormikProps, useFormik } from "formik";
-import { useTaskSchema } from "../validation/validation";
 
 interface Subtask {
   id: number;
@@ -28,13 +26,6 @@ interface TaskContextType {
   deleteTask: (boardId: number, columnId: number, taskId: number) => void;
   selectedTask: Task | null;
   setSelectedTask: React.Dispatch<React.SetStateAction<Task | null>>;
-  formik: FormikProps<{
-    title: string;
-    description: string;
-    subtasks: Subtask[];
-    status: string;
-    columnId: number | null;
-  }>;
   completedTasks: string[];
   setCompletedTasks: React.Dispatch<React.SetStateAction<string[]>>;
   updateSubtaskStatus: (
@@ -57,45 +48,9 @@ type TaskProviderProps = { children: ReactNode };
 export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
   const { setBoards } = useBoardContext();
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-  const taskSchema = useTaskSchema();
-  const { boards, activeTab } = useBoardContext();
   const [completedTasks, setCompletedTasks] = useState<string[]>([]);
   const [showDeleteTask, setShowDeleteTask] = useState(false);
   const [showEditTask, setShowEditTask] = useState(false);
-
-  const formik = useFormik({
-    initialValues: {
-      title: "",
-      description: "",
-      subtasks: [{ id: Date.now(), title: "", completed: false }],
-      status: "",
-    },
-    validationSchema: taskSchema,
-    onSubmit: (values) => {
-      const column = boards[activeTab].columns.find(
-        (column) => column.name === values.status
-      );
-
-      const columnId = column!.id;
-      if (
-        formik.isValid &&
-        formik.values.title !== "" &&
-        formik.values.description !== "" &&
-        formik.values.status !== ""
-      ) {
-        addTask(boards[activeTab].id, columnId, {
-          id: Date.now(),
-          title: values.title,
-          description: values.description,
-          subtasks: values.subtasks,
-          status: values.status,
-        });
-        formik.resetForm();
-      }
-    },
-    validateOnChange: false,
-    validateOnBlur: false,
-  });
 
   const addTask = (boardId: number, columnId: number, task: Task) => {
     setBoards((prevBoards) => {
@@ -232,7 +187,6 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
         deleteTask,
         selectedTask,
         setSelectedTask,
-        formik,
         completedTasks,
         setCompletedTasks,
         updateSubtaskStatus,

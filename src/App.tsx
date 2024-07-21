@@ -71,12 +71,9 @@ export default App;
 // ilkin olaraq localhost:3000 columnlari gostermir
 // drag drop
 // icon errorlari ve diger errorlar
-// sidebar icon size
-// shadows
-// add new taskda bir inputu yazib save edende popup baglanir
-// input yazdiqdan sonra icindeki text color
 // check forwardRef
 // addnewtaskcontext formik error
 // add new column                 errorMessage={formik.errors.columns?.[index]?.name}
 // add new task                   errorMessage={formik.errors.subtasks?.[index]?.title}
+// add new task         <Dropdown label="Status" placeholder="Select" formik={formik} />
 // edit task                   errorMessage={formik.errors.subtasks?.[index]?.title}
