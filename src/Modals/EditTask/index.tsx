@@ -179,6 +179,7 @@ const EditTask = ({ setShowAddNewTask }: HeaderProps) => {
                 { id: Date.now(), title: "", completed: false },
               ]);
             }}
+            disabled={formik.values.subtasks.length >= 5}
           />
         </div>
         <Dropdown label="Status" placeholder="Select" editFormik={formik} />

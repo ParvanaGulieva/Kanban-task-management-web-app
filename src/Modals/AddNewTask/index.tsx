@@ -68,8 +68,6 @@ const AddNewTask = ({ setShowAddNewTask }: HeaderProps) => {
     validateOnBlur: false,
   });
 
-  console.log(formik.errors.subtasks);
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -163,6 +161,9 @@ const AddNewTask = ({ setShowAddNewTask }: HeaderProps) => {
               </div>
             );
           })}
+          {formik.values.subtasks.length === 5 && (
+            <p className="message body-L">Maximum 5 subtasks allowed</p>
+          )}
           <Button
             className="secondary"
             text="+ Add New Subtask"
@@ -173,6 +174,7 @@ const AddNewTask = ({ setShowAddNewTask }: HeaderProps) => {
                 { id: Date.now(), title: "", completed: false },
               ]);
             }}
+            disabled={formik.values.subtasks.length >= 5}
           />
         </div>
         <Dropdown label="Status" placeholder="Select" formik={formik} />

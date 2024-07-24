@@ -39,10 +39,6 @@ const AddNewBoard = () => {
     };
   }, [setShowNewBoardModal]);
 
-  // useEffect(() => {
-  //   setShowMessage(formik.values.columns.length === 0);
-  // }, [formik.values.columns.length]);
-
   return (
     <form className="modal-container" onSubmit={formik.handleSubmit}>
       <div className="modal" ref={modalRef}>
@@ -61,9 +57,6 @@ const AddNewBoard = () => {
           {formik.values.columns.length !== 0 && (
             <p className="body-M">Columns</p>
           )}
-          {/* {showMessage && (
-            <p className="message body-L">At least 1 column is required</p>
-          )} */}
           {formik.values.columns.map((column, index) => (
             <div className="column" key={index}>
               <Input
@@ -105,12 +98,16 @@ const AddNewBoard = () => {
               </svg>
             </div>
           ))}
+          {formik.values.columns.length === 5 && (
+            <p className="message body-L">Maximum 5 columns allowed</p>
+          )}
           <Button
             className="secondary"
             text="+ Add New Column"
             onClick={() => {
               formik.setFieldValue("columns", [...formik.values.columns, ""]);
             }}
+            disabled={formik.values.columns.length >= 5}
           />
         </div>
         <Button

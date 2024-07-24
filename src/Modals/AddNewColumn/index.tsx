@@ -53,6 +53,9 @@ const AddNewColumn = ({ setShowAddColumn }: NewColumnProps) => {
     validateOnBlur: false,
   });
 
+  const totalColumns =
+    boards[activeTab].columns.length + formik.values.columns.length;
+
   useEffect(() => {
     setShowMessage(formik.values.columns.length === 0);
   }, [formik.values.columns.length]);
@@ -116,6 +119,7 @@ const AddNewColumn = ({ setShowAddColumn }: NewColumnProps) => {
                 { name: "" },
               ]);
             }}
+            disabled={totalColumns >= 5}
           />
         </div>
         <Button

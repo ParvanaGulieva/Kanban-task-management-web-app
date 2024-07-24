@@ -8,6 +8,7 @@ export interface ButtonProps {
   text: string;
   type?: ButtonTypes;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  disabled?: boolean;
 }
 
 export interface InputProps {

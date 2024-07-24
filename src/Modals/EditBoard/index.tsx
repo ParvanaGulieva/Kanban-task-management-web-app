@@ -120,6 +120,7 @@ const EditBoard = () => {
               event.preventDefault();
               formik.setFieldValue("columns", [...formik.values.columns, ""]);
             }}
+            disabled={formik.values.columns.length >= 5}
           />
         </div>
         <Button
