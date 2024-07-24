@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import icon from "../../assets/dropdown.svg";
+import DropdownIcon from "../../assets/Dropdown";
 import { DropdownProps } from "../../types";
 import { useBoardContext } from "../../context/AddNewBoardContext";
 import { useTaskContext } from "../../context/AddNewTaskContext";
@@ -37,7 +37,7 @@ const Dropdown = ({
         ) : (
           <p className="placeholder">{placeholder}</p>
         )}
-        <img src={icon} alt="dropdownIcon" />
+        <DropdownIcon />
       </div>
       {isOpen && (
         <ul className="dropdown-options">

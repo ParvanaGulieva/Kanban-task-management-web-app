@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { SidebarProps } from "../../types";
 import { useBoardContext } from "../../context/AddNewBoardContext";
 import AddNewBoard from "../../Modals/AddNewBoard";
-import light from "../../assets/light.svg";
-import dark from "../../assets/dark.svg";
-import eye2 from "../../assets/eye2.svg";
+import Eye2 from "../../assets/Eye2";
+import Dark from "../../assets/Dark";
+import Light from "../../assets/Light";
 
 const Sidebar = ({
   toggleTheme,
@@ -94,12 +94,12 @@ const Sidebar = ({
 
           <div className="btn-container">
             <div className="theme-container">
-              <img src={light} alt="theme-light" />
+              <Light />
               <label className="switch">
                 <input type="checkbox" onClick={toggleTheme} />
                 <span className="slider round"></span>
               </label>
-              <img src={dark} alt="theme-dark" />
+              <Dark />
             </div>
             <div className="hide-button" onClick={handleClickShowSidebar}>
               <svg
@@ -122,7 +122,7 @@ const Sidebar = ({
         </div>
       )}
       <div className="open-sidebar" onClick={handleClickShowSidebar}>
-        <img src={eye2} alt="close sidebar" />
+        <Eye2 />
       </div>
       {showNewBoardModal && <AddNewBoard />}
     </>

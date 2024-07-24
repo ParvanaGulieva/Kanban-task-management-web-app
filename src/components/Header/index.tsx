@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Button from "../Button";
-import logoLight from "../../assets/logo-light.svg";
-import logoDark from "../../assets/logo-dark.svg";
+import LogoDark from "../../assets/LogoDark";
+import LogoLight from "../../assets/LogoLight";
 import { HeaderProps } from "../../types/index";
 import Delete from "../../Modals/DeleteBoard";
 import { useBoardContext } from "../../context/AddNewBoardContext";
@@ -51,7 +51,7 @@ const Header = ({
   return (
     <div className="header-container">
       <div className="logo-container">
-        <img src={theme ? logoLight : logoDark} alt="logo" className="logo" />
+        <div className="logo">{theme ? <LogoLight /> : <LogoDark />}</div>
       </div>
       <div className="main">
         <p className="heading-XL">{boards[activeTab].name}</p>

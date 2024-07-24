@@ -66,7 +66,6 @@ function App() {
 
 export default App;
 
-// columns limit
 // ve columns nameler eyni olsa error
 // ilkin olaraq localhost:3000 columnlari gostermir ve bg color islemir
 // drag drop
