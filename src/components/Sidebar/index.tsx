@@ -26,6 +26,7 @@ const Sidebar = ({
     setShowSidebar(!showSidebar);
   };
 
+  // console.log(boards[activeTab].columns);
   return (
     <>
       {showSidebar && (

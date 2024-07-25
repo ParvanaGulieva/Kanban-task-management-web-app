@@ -9,6 +9,7 @@ const EditBoard = () => {
   const [showMessage, setShowMessage] = useState(false);
   const { boards, activeTab, updateBoard, setShowEditBoard } =
     useBoardContext();
+  const [errorMessage, setErrorMessage] = useState("");
 
   const formik = useFormik({
     initialValues: {
@@ -16,7 +17,21 @@ const EditBoard = () => {
       columns: boards[activeTab].columns.map((column) => column.name),
     },
     onSubmit: (values) => {
-      if (values.columns.length > 0) {
+      const otherBoards = boards.filter((_, index) => index !== activeTab);
+      const columnSet = new Set(values.columns.map((col) => col.toLowerCase()));
+      if (
+        otherBoards.some(
+          (board) => board.name.toLowerCase() === values.name.toLowerCase()
+        )
+      ) {
+        setErrorMessage(
+          "Board name already exists. Please choose a different name."
+        );
+      } else if (columnSet.size !== values.columns.length) {
+        setErrorMessage(
+          "Column name already exists. Please choose a different name."
+        );
+      } else if (values.columns.length > 0) {
         updateBoard(boards[activeTab].id, values.name, values.columns);
         setShowEditBoard(false);
       }
@@ -32,7 +47,6 @@ const EditBoard = () => {
     validateOnChange: false,
     validateOnBlur: false,
   });
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -57,6 +71,7 @@ const EditBoard = () => {
     <form className="modal-container" onSubmit={formik.handleSubmit}>
       <div className="modal" ref={modalRef}>
         <p className="heading-L">Edit Board</p>
+        {errorMessage && <p className="body-L message">{errorMessage}</p>}
         <Input
           type="text"
           placeholder="e.g. Web Design"

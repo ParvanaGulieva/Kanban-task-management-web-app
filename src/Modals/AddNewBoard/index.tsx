@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { useBoardContext } from "../../context/AddNewBoardContext";
@@ -7,7 +7,8 @@ import { boardSchema } from "../../validation/validation";
 
 const AddNewBoard = () => {
   const modalRef = useRef<HTMLDivElement>(null);
-  const { setShowNewBoardModal, addBoard } = useBoardContext();
+  const { setShowNewBoardModal, addBoard, boards } = useBoardContext();
+  const [errorMessage, setErrorMessage] = useState("");
 
   const formik = useFormik({
     initialValues: {
@@ -16,8 +17,26 @@ const AddNewBoard = () => {
     },
     validationSchema: boardSchema,
     onSubmit: (values) => {
-      addBoard(values.name, values.columns);
-      setShowNewBoardModal(false);
+      if (
+        boards.some(
+          (board) => board.name.toLowerCase() === values.name.toLowerCase()
+        )
+      ) {
+        setErrorMessage(
+          "Board name already exists. Please choose a different name."
+        );
+      } else if (
+        values.columns.some(
+          (col, index, self) => self.indexOf(col.toLowerCase()) !== index
+        )
+      ) {
+        setErrorMessage(
+          "Column names must be unique. Please choose different names."
+        );
+      } else {
+        addBoard(values.name, values.columns);
+        setShowNewBoardModal(false);
+      }
     },
     validateOnChange: false,
     validateOnBlur: false,
@@ -43,12 +62,16 @@ const AddNewBoard = () => {
     <form className="modal-container" onSubmit={formik.handleSubmit}>
       <div className="modal" ref={modalRef}>
         <p className="heading-L">Add New Board</p>
+        {errorMessage && <p className="body-L message">{errorMessage}</p>}
         <Input
           type="text"
           placeholder="e.g. Web Design"
           label="Name"
           name="name"
-          onChange={formik.handleChange}
+          onChange={(e) => {
+            formik.handleChange(e);
+            setErrorMessage("");
+          }}
           onBlur={formik.handleBlur}
           value={formik.values.name}
           errorMessage={formik.errors.name}

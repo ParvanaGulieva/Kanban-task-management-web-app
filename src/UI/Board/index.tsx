@@ -29,9 +29,11 @@ const Board = ({ setShowDetailedTask, showSidebar }: DetailedTaskProps) => {
 
   const columnId = getColumnId();
 
-  const gridTemplateColumns = `repeat(${
-    boards[activeTab].columns.length + 1
-  }, 1fr)`;
+  const numberOfColumns = boards[activeTab].columns.length;
+  const gridTemplateColumns =
+    numberOfColumns < 5
+      ? `repeat(${numberOfColumns + 1}, 1fr)`
+      : `repeat(${numberOfColumns}, 1fr)`;
 
   const handleDelete = () => {
     if (columnId !== null && selectedTask && selectedTask?.id !== null) {
@@ -100,16 +102,18 @@ const Board = ({ setShowDetailedTask, showSidebar }: DetailedTaskProps) => {
                 </div>
               );
             })}
-            <div
-              className="new-column-container"
-              onClick={() => {
-                setShowAddColumn(true);
-              }}
-            >
-              <div className="new-column">
-                <p className="heading-XL">+ New Column</p>
+            {boards[activeTab].columns.length < 5 && (
+              <div
+                className="new-column-container"
+                onClick={() => {
+                  setShowAddColumn(true);
+                }}
+              >
+                <div className="new-column">
+                  <p className="heading-XL">+ New Column</p>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         )}
       </div>

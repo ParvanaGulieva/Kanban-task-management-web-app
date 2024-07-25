@@ -12,6 +12,7 @@ const AddNewColumn = ({ setShowAddColumn }: NewColumnProps) => {
   const [showMessage, setShowMessage] = useState(false);
   const { addColumn } = useColumnContext();
   const { boards, activeTab } = useBoardContext();
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -35,7 +36,21 @@ const AddNewColumn = ({ setShowAddColumn }: NewColumnProps) => {
     },
     validationSchema: newColumnSchema,
     onSubmit: (values) => {
-      if (
+      const columnNames = values.columns.map((col) => col.name.toLowerCase());
+      const boardColumnNames = boards[activeTab].columns.map((col) =>
+        col.name.toLowerCase()
+      );
+      if (columnNames.some((col, index, self) => self.indexOf(col) !== index)) {
+        setErrorMessage(
+          "Column names must be unique. Please choose different names."
+        );
+      } else if (
+        boardColumnNames.some((col, index, self) => self.indexOf(col) !== index)
+      ) {
+        setErrorMessage(
+          "Column names must be unique. Please choose different names."
+        );
+      } else if (
         formik.isValid &&
         formik.values.columns.length > 0 &&
         values.columns[values.columns.length - 1].name !== ""
@@ -53,6 +68,8 @@ const AddNewColumn = ({ setShowAddColumn }: NewColumnProps) => {
     validateOnBlur: false,
   });
 
+  console.log(formik.values.columns);
+
   const totalColumns =
     boards[activeTab].columns.length + formik.values.columns.length;
 
@@ -64,6 +81,7 @@ const AddNewColumn = ({ setShowAddColumn }: NewColumnProps) => {
     <form className="modal-container" onSubmit={formik.handleSubmit}>
       <div className="modal" ref={modalRef}>
         <p className="heading-L">Add New Column</p>
+        {errorMessage && <p className="body-L message">{errorMessage}</p>}
         <div className="add-subtasks">
           {formik.values.columns.map((column, index) => (
             <div className="column" key={index}>

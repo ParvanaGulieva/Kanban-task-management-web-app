@@ -66,14 +66,12 @@ function App() {
 
 export default App;
 
-// ve columns nameler eyni olsa error
 // ilkin olaraq localhost:3000 columnlari gostermir ve bg color islemir
 // drag drop
-// icon errorlari ve diger errorlar
 // check forwardRef
 // addnewtaskcontext formik error
 // add new column errorMessage={formik.errors.columns?.[index]?.name}
 // add new task errorMessage={formik.errors.subtasks?.[index]?.title}
 // add new task <Dropdown label="Status" placeholder="Select" formik={formik} />
 // edit task errorMessage={formik.errors.subtasks?.[index]?.title}
-// eger column yoxdursa add task buttonu disabled olsn
+// add new column popupinda column name must be unique

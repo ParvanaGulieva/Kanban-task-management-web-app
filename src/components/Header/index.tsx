@@ -61,6 +61,7 @@ const Header = ({
             className="primary-L"
             text="+ Add New Task"
             onClick={() => setShowAddNewTask?.(true)}
+            disabled={boards[activeTab].columns.length === 0}
           />
           <svg
             onClick={handleClickMore}
