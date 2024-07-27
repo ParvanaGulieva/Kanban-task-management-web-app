@@ -74,4 +74,3 @@ export default App;
 // add new task errorMessage={formik.errors.subtasks?.[index]?.title}
 // add new task <Dropdown label="Status" placeholder="Select" formik={formik} />
 // edit task errorMessage={formik.errors.subtasks?.[index]?.title}
-// add new column popupinda column name must be unique

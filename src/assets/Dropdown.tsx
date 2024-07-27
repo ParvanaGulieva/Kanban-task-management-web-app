@@ -12,7 +12,7 @@ const Dropdown = () => {
       <path
         d="M0.798828 1.54863L5.49731 6.24711L10.1958 1.54863"
         stroke="#635FC7"
-        stroke-width="2"
+        strokeWidth="2"
       />
     </svg>
   );

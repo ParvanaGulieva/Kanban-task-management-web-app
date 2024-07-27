@@ -30,6 +30,10 @@ const AddNewColumn = ({ setShowAddColumn }: NewColumnProps) => {
     };
   }, [setShowAddColumn]);
 
+  const boardColumnNames = boards[activeTab].columns.map((col) =>
+    col.name.toLowerCase()
+  );
+
   const formik = useFormik({
     initialValues: {
       columns: [{ name: "" }],
@@ -37,20 +41,7 @@ const AddNewColumn = ({ setShowAddColumn }: NewColumnProps) => {
     validationSchema: newColumnSchema,
     onSubmit: (values) => {
       const columnNames = values.columns.map((col) => col.name.toLowerCase());
-      const boardColumnNames = boards[activeTab].columns.map((col) =>
-        col.name.toLowerCase()
-      );
-      if (columnNames.some((col, index, self) => self.indexOf(col) !== index)) {
-        setErrorMessage(
-          "Column names must be unique. Please choose different names."
-        );
-      } else if (
-        boardColumnNames.some((col, index, self) => self.indexOf(col) !== index)
-      ) {
-        setErrorMessage(
-          "Column names must be unique. Please choose different names."
-        );
-      } else if (
+      if (
         formik.isValid &&
         formik.values.columns.length > 0 &&
         values.columns[values.columns.length - 1].name !== ""
@@ -66,9 +57,28 @@ const AddNewColumn = ({ setShowAddColumn }: NewColumnProps) => {
     },
     validateOnChange: false,
     validateOnBlur: false,
-  });
+    validate: (values) => {
+      const errors = { columns: [] };
+      const columnNames = values.columns.map((col) => col.name.toLowerCase());
 
-  console.log(formik.values.columns);
+      values.columns.forEach((column, index) => {
+        if (
+          boardColumnNames.includes(column.name.toLowerCase()) ||
+          columnNames.indexOf(column.name.toLowerCase()) !== index
+        ) {
+          errors.columns[index] = "Column name must be unique";
+        }
+      });
+
+      if (errors.columns.length) {
+        setErrorMessage("Column names must be unique");
+      } else {
+        setErrorMessage("");
+      }
+
+      return errors.columns.length ? errors : {};
+    },
+  });
 
   const totalColumns =
     boards[activeTab].columns.length + formik.values.columns.length;
