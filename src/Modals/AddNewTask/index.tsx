@@ -185,9 +185,6 @@ const AddNewTask = ({ setShowAddNewTask }: HeaderProps) => {
           onClick={(e) => {
             e.preventDefault();
             formik.handleSubmit();
-            // if (formik.values.subtasks.length === 0) {
-            //   setShowMessage(true);
-            // }
           }}
         />
       </div>

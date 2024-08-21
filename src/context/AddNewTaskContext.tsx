@@ -86,31 +86,49 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
         );
         if (!currentColumn) return board;
 
-        const updatedCurrentColumn = {
-          ...currentColumn,
-          tasks: currentColumn.tasks.filter((task) => task.id !== taskId),
-        };
+        if (currentColumn.name !== updatedTask.status) {
+          const updatedCurrentColumn = {
+            ...currentColumn,
+            tasks: currentColumn.tasks.filter((task) => task.id !== taskId),
+          };
 
-        const newColumn = board.columns.find(
-          (column) => column.name === updatedTask.status
-        );
-        if (!newColumn) return board;
+          const newColumn = board.columns.find(
+            (column) => column.name === updatedTask.status
+          );
+          if (!newColumn) return board;
 
-        const updatedNewColumn = {
-          ...newColumn,
-          tasks: [...newColumn.tasks, updatedTask],
-        };
+          const updatedNewColumn = {
+            ...newColumn,
+            tasks: [...newColumn.tasks, updatedTask],
+          };
 
-        const updatedColumns = board.columns.map((column) => {
-          if (column.id === currentColumnId) return updatedCurrentColumn;
-          if (column.id === newColumn.id) return updatedNewColumn;
-          return column;
-        });
+          const updatedColumns = board.columns.map((column) => {
+            if (column.id === currentColumnId) return updatedCurrentColumn;
+            if (column.id === newColumn.id) return updatedNewColumn;
+            return column;
+          });
 
-        return {
-          ...board,
-          columns: updatedColumns,
-        };
+          return {
+            ...board,
+            columns: updatedColumns,
+          };
+        } else {
+          const updatedColumn = {
+            ...currentColumn,
+            tasks: currentColumn.tasks.map((task) =>
+              task.id === taskId ? updatedTask : task
+            ),
+          };
+
+          const updatedColumns = board.columns.map((column) =>
+            column.id === currentColumnId ? updatedColumn : column
+          );
+
+          return {
+            ...board,
+            columns: updatedColumns,
+          };
+        }
       });
 
       localStorage.setItem("boards", JSON.stringify(updatedBoards));

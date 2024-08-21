@@ -69,7 +69,6 @@ export default App;
 // ilkin olaraq localhost:3000 columnlari gostermir ve bg color islemir
 // drag drop
 // check forwardRef
-// addnewtaskcontext formik error
 // add new column errorMessage={formik.errors.columns?.[index]?.name}
 // add new task errorMessage={formik.errors.subtasks?.[index]?.title}
 // add new task <Dropdown label="Status" placeholder="Select" formik={formik} />

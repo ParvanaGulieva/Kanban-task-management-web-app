@@ -1,4 +1,3 @@
-import { MouseEventHandler } from "react";
 import { FormikProps } from "formik";
 
 export type ButtonTypes = "button" | "submit" | "reset";

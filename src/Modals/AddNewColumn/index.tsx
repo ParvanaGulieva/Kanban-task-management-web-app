@@ -40,7 +40,6 @@ const AddNewColumn = ({ setShowAddColumn }: NewColumnProps) => {
     },
     validationSchema: newColumnSchema,
     onSubmit: (values) => {
-      const columnNames = values.columns.map((col) => col.name.toLowerCase());
       if (
         formik.isValid &&
         formik.values.columns.length > 0 &&
@@ -87,6 +86,7 @@ const AddNewColumn = ({ setShowAddColumn }: NewColumnProps) => {
     setShowMessage(formik.values.columns.length === 0);
   }, [formik.values.columns.length]);
 
+  console.log(typeof formik.errors.columns?.[0]?.name);
   return (
     <form className="modal-container" onSubmit={formik.handleSubmit}>
       <div className="modal" ref={modalRef}>
